@@ -1,46 +1,65 @@
-# Astro Starter Kit: Basics
+# Portfolio estilo terminal (Astro)
 
-```sh
-npm create astro@latest -- --template basics
+Portfolio personal con UI tipo **terminal**, construido con **Astro**. El contenido (bio, experiencia, proyectos, herramientas y links) se gestiona desde un único archivo de datos.
+
+## Requisitos
+
+- **Node.js**: `>= 22.12.0`
+- **npm** (incluido con Node)
+
+## Ejecutar en local
+
+```bash
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Abre `http://localhost:4321`.
 
-## 🚀 Project Structure
+## Scripts
 
-Inside of your Astro project, you'll see the following folders and files:
+```bash
+npm run dev      # servidor de desarrollo
+npm run build    # build de producción a ./dist
+npm run preview  # previsualización del build
+```
+
+## Personalización rápida
+
+- **Perfil (todo el contenido)**: edita `src/data/profile.ts`
+  - `titleAscii`: banner ASCII
+  - `bioTitle` y `bio`: texto de la sección bio
+  - `experience`: experiencia laboral
+  - `projects`: proyectos (incluye `imageSrc`, `hrefLive`, `hrefSource`)
+  - `tools`: stack por categorías (icons + labels)
+  - `links`: redes y contacto
+- **Página principal**: `src/pages/index.astro` (renderiza el componente `Terminal`)
+- **Layout / estilos globales**: `src/layouts/Layout.astro`
+
+## Assets (iconos e imágenes)
+
+Los SVG usados por el perfil viven en `public/`, por ejemplo:
+
+- `public/projects/*` (imágenes de proyectos)
+- `public/code/*` (iconos de tecnologías)
+- `public/social/*` (iconos de redes)
+
+En `profile.ts` se referencian como rutas absolutas (ej. `"/projects/ai-powered-code-editor.svg"`).
+
+## Estructura del proyecto (resumen)
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+public/               # assets estáticos
+src/components/       # UI (Terminal, Command, etc.)
+src/data/profile.ts   # datos del portfolio
+src/layouts/          # layout base + estilos globales
+src/pages/index.astro # entrypoint
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Build y despliegue
 
-## 🧞 Commands
+```bash
+npm run build
+```
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+El output queda en `dist/` (sitio estático), listo para desplegar en cualquier hosting de estáticos.
