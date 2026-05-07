@@ -9,7 +9,7 @@ export type ProjectItem = {
   name: string;
   subtitle: string;
   description: string;
-  tech: string[];
+  tech: { label: string; iconSrc: string }[];
   images?: string[];
   hrefLive?: string;
   hrefSource?: string;
@@ -75,10 +75,19 @@ export const profile: Profile = {
   projects: [
     {
       name: "Ecommerce MSJ Market",
-      subtitle: "",
+      subtitle: "E-commerce inteligente con fidelización y gestión de inventario",
       description:
         "Aplicación web diseñada para optimizar la experiencia de compras en mini-mercados mediante la creación de listas personalizadas, gestión de disponibilidad de productos y fidelización de usuarios a través de un sistema de suscripción.",
-      tech: ["TypeScript", "Astro", "React"],
+      tech: [
+        { label: "Vue 3", iconSrc: "/code/frontend/vue.svg" },
+        { label: "Javascript", iconSrc: "/code/frontend/javascript.svg" },
+        { label: "Node.js", iconSrc: "/code/backend/nodejs.svg" },
+        { label: "Express.js", iconSrc: "/code/backend/Express.js_dark.svg" },
+        { label: "PostgreSQL", iconSrc: "/code/databases/postgresql.svg" },
+        { label: "Docker", iconSrc: "/code/infrastructure/docker.svg" },
+        { label: "Supabase", iconSrc: "/code/databases/supabase.svg" },
+        { label: "Vercel", iconSrc: "/code/infrastructure/Vercel_dark.svg" },
+      ],
       images: [
         "/projects/mini-mercado/1.webp",
         "/projects/mini-mercado/2.webp",
@@ -93,7 +102,11 @@ export const profile: Profile = {
       subtitle: "DFS con consistencia fuerte",
       description:
         "Sistema distribuido con réplicas, tolerancia a fallos y APIs gRPC para operaciones de archivos.",
-      tech: ["Rust", "gRPC", "Docker"],
+      tech: [
+        { label: "Rust", iconSrc: "" },
+        { label: "gRPC", iconSrc: "" },
+        { label: "Docker", iconSrc: "/code/infrastructure/docker.svg" },
+      ],
       images: [
         "/projects/distributed-file-system.svg",
         "/projects/ai-powered-code-editor.svg",
@@ -107,7 +120,11 @@ export const profile: Profile = {
       subtitle: "Monitoreo en tiempo real",
       description:
         "Dashboard interactivo para visualizar métricas de infraestructura cloud en tiempo real.",
-      tech: ["Next.js", "Tailwind", "D3.js"],
+      tech: [
+        { label: "Next.js", iconSrc: "" },
+        { label: "Tailwind", iconSrc: "/code/frontend/tailwindcss.svg" },
+        { label: "D3.js", iconSrc: "" },
+      ],
       images: [
         "/projects/ai-powered-code-editor.svg",
         "/projects/distributed-file-system.svg",
@@ -121,7 +138,11 @@ export const profile: Profile = {
       subtitle: "Gestión de activos digitales",
       description:
         "Billetera digital segura para el manejo de transacciones y portafolio de criptoactivos.",
-      tech: ["React Native", "Firebase", "Web3"],
+      tech: [
+        { label: "React Native", iconSrc: "" },
+        { label: "Firebase", iconSrc: "" },
+        { label: "Web3", iconSrc: "" },
+      ],
       images: [
         "/projects/distributed-file-system.svg",
         "/projects/mini-mercado/1.webp",

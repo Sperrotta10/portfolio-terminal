@@ -140,8 +140,17 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               </div>
               <div class="project-desc">{p.description}</div>
               <div class="project-tech">
-                <span class="label">Tech:</span>{" "}
-                <span class="list">{p.tech.join(" / ")}</span>
+                <span class="label">Tech:</span>
+                <div class="tech-list">
+                  {p.tech.map((t) => (
+                    <div class="tech-badge">
+                      {t.iconSrc && (
+                        <img src={t.iconSrc} alt="" class="tech-icon" />
+                      )}
+                      <span>{t.label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
               <div class="actions">
                 {p.hrefLive ? (
@@ -777,6 +786,38 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 
   .label {
     color: rgba(129, 230, 217, 0.85);
+  }
+
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  .tech-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(129, 230, 217, 0.05);
+    border: 1px solid rgba(129, 230, 217, 0.15);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--text-muted);
+    transition: all 0.2s ease;
+  }
+
+  .tech-badge:hover {
+    background: rgba(129, 230, 217, 0.1);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .tech-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
   }
 
   .actions {
