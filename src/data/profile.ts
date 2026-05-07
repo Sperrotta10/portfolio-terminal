@@ -61,8 +61,8 @@ export const profile: Profile = {
   ],
   experience: [
     {
-      range: "2024–2025",
-      role: "Desarrollador Full Stack",
+      range: "sept. 2024 – mar. 2025",
+      role: "Desarrollador Full Stack (Pasantia)",
       company: "Orquesta Sinfonica de Carabobo",
       bullets: [
         "Desarrollé e implementé un sistema interno para administrar pagos y organizar la información\n estudiantil de la orquesta.",

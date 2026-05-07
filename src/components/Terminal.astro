@@ -277,6 +277,10 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     line-height: 1.2;
     color: var(--accent-strong);
     white-space: pre;
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: calc(var(--grid) * 2);
   }
 
   .system {
@@ -544,5 +548,45 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   .footer-link:hover {
     border-color: rgba(129, 230, 217, 0.35);
     color: var(--text);
+  }
+
+  @media (max-width: 520px) {
+    .titlebar {
+      height: 40px;
+      padding: 0 calc(var(--grid) * 4);
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+    }
+
+    .content {
+      padding: calc(var(--grid) * 4);
+    }
+
+    .ascii {
+      font-size: 10px;
+      line-height: 1.15;
+    }
+
+    .system {
+      font-size: 12px;
+    }
+
+    .project {
+      padding: calc(var(--grid) * 4);
+    }
+
+    .footer {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+    }
+
+    .footer-left,
+    .footer-cursor {
+      display: none;
+    }
   }
 </style>

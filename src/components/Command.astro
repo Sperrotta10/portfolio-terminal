@@ -48,4 +48,14 @@ const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.
     color: var(--accent-strong);
     font-weight: 600;
   }
+
+  @media (max-width: 520px) {
+    .command {
+      font-size: 13px;
+    }
+
+    .command.v-title {
+      font-size: 16px;
+    }
+  }
 </style>

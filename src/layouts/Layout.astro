@@ -69,6 +69,10 @@ const {
     height: 100%;
   }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     margin: 0;
     font-family: var(--font-ui);
@@ -104,6 +108,21 @@ const {
     .container {
       width: calc(100% - (var(--gutter) * 2));
       padding: calc(var(--page-margin) / 1.5) 0;
+    }
+  }
+
+  @media (max-width: 520px) {
+    :root {
+      --gutter: 16px;
+      --page-margin: 20px;
+    }
+
+    body {
+      font-size: 15px;
+    }
+
+    .container {
+      padding: var(--page-margin) 0;
     }
   }
 </style>
