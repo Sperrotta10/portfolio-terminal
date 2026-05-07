@@ -13,7 +13,9 @@ const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.
 
 <div class={`command v-${variant}`}>
   <span class="prompt">{prompt}</span>
-  <span class="cmd">{command}</span>
+  <span class="cmd-wrapper">
+    <span class="cmd">{command}</span>
+  </span>
   {showCursor ? <Cursor /> : null}
 </div>
 
@@ -38,6 +40,19 @@ const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.
   .prompt {
     color: var(--accent);
     user-select: none;
+  }
+
+  .cmd-wrapper {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+    animation: typing 1.5s steps(40, end) forwards;
+  }
+
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
   }
 
   .cmd {

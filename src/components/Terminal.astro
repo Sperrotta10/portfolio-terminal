@@ -25,20 +25,21 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 
   <div class="content">
     <pre
-      class="ascii"
-      aria-label="ASCII header">{profile.titleAscii.join("\n")}</pre>
+      class="ascii glitch-text"
+      aria-label="ASCII header"
+      data-text={profile.titleAscii.join("\n")}>{profile.titleAscii.join("\n")}</pre>
 
     <div class="system">
-      <div class="line">
+      <div class="line boot-line" style="--delay: 0.1s">
         <span class="tag">[system]</span> Initializing Portfolio v1.0.0…
       </div>
-      <div class="line">
+      <div class="line boot-line" style="--delay: 0.8s">
         <span class="tag">[system]</span> Loading profile: Developer… OK
       </div>
-      <div class="line">
+      <div class="line boot-line" style="--delay: 1.5s">
         <span class="tag">[system]</span> Status: Ready.
       </div>
-      <div class="line">
+      <div class="line boot-line" style="--delay: 2.2s">
         <span class="tag">[system]</span> Hint: Use <a href="#contact" class="system-link">--contact</a> or <a href={profile.cvUrl || "#"} class="system-link" download>--download-cv</a> to start.
       </div>
     </div>
@@ -305,13 +306,77 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
         <Cursor variant="block" />
       </div>
     </div>
+    </div>
+    <div class="status-bar">
+      <div class="status-left">
+        <span class="status-item mode">NORMAL</span>
+        <span class="status-item file">portfolio.zsh</span>
+        <span class="status-item branch">main</span>
+      </div>
+      <div class="status-right">
+        <span class="status-item cpu">CPU: 12%</span>
+        <span class="status-item ram">RAM: 4.2GB</span>
+        <span id="terminal-time" class="status-item time">00:00:00</span>
+      </div>
+    </div>
   </div>
-</div>
+
+<script>
+  function updateTime() {
+    const timeEl = document.getElementById('terminal-time');
+    if (timeEl) {
+      timeEl.textContent = new Date().toLocaleTimeString('en-US', { hour12: false });
+    }
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+</script>
 
 <style>
   .window {
     border: 1px solid var(--surface-high);
     background: linear-gradient(180deg, var(--surface-lowest), var(--bg));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    background: var(--surface-low);
+    border-top: 1px solid var(--surface-high);
+    padding: 2px 12px;
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--text-muted);
+    user-select: none;
+    z-index: 10;
+  }
+
+  .status-left, .status-right {
+    display: flex;
+    gap: 12px;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .status-item.mode {
+    background: var(--accent);
+    color: var(--bg);
+    padding: 0 6px;
+    font-weight: bold;
+  }
+
+  .status-item.branch {
+    color: var(--accent);
+  }
+
+  .status-item.time {
+    font-variant-numeric: tabular-nums;
   }
 
   .titlebar {
@@ -375,6 +440,25 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     max-width: 100%;
     overflow-x: auto;
     padding-bottom: calc(var(--grid) * 2);
+    position: relative;
+  }
+
+  .glitch-text:hover {
+    color: var(--accent);
+  }
+
+  .boot-line {
+    opacity: 0;
+    transform: translateX(-10px);
+    animation: bootIn 0.5s ease-out forwards;
+    animation-delay: var(--delay);
+  }
+
+  @keyframes bootIn {
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   .system {
@@ -509,6 +593,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 
   .project:hover {
     border-color: rgba(129, 230, 217, 0.5);
+    background: rgba(28, 27, 27, 0.9);
   }
 
   .project-name {
