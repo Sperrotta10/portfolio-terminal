@@ -1,23 +1,109 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Portfolio — Terminal',
+  description = 'Portfolio estilo terminal, construido con Astro.',
+} = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  :root {
+    --bg: #131313;
+    --surface-lowest: #0e0e0e;
+    --surface-low: #1c1b1b;
+    --surface: #201f1f;
+    --surface-high: #2a2a2a;
+    --surface-highest: #353534;
+
+    --text: #e5e2e1;
+    --text-muted: #bdc9c6;
+    --outline: #879391;
+    --outline-variant: #3d4947;
+
+    --accent: #81e6d9;
+    --accent-strong: #b5fff4;
+    --danger: #ffb4ab;
+    --warning: #ffcd7e;
+
+    --max-width: 1200px;
+    --gutter: 24px;
+    --page-margin: 48px;
+    --grid: 4px;
+
+    --font-ui: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+      Consolas, "Liberation Mono", "Courier New", monospace;
+    --font-code: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco,
+      Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-ui);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background:
+      var(--bg);
+  }
+
+  ::selection {
+    background: rgba(129, 230, 217, 0.25);
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid rgba(129, 230, 217, 0.5);
+    outline-offset: 2px;
+  }
+
+  .container {
+    width: min(var(--max-width), calc(100% - (var(--page-margin) * 2)));
+    margin: 0 auto;
+    padding: var(--page-margin) 0;
+  }
+
+  @media (max-width: 900px) {
+    .container {
+      width: calc(100% - (var(--gutter) * 2));
+      padding: calc(var(--page-margin) / 1.5) 0;
+    }
+  }
 </style>

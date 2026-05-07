@@ -1,0 +1,548 @@
+---
+import type { Profile } from "../data/profile";
+import Command from "./Command.astro";
+import Section from "./Section.astro";
+import Cursor from "./Cursor.astro";
+
+export interface Props {
+  profile: Profile;
+  windowTitle?: string;
+}
+
+const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
+---
+
+<div class="window" role="region" aria-label="Terminal portfolio">
+  <div class="titlebar">
+    <div class="controls" aria-hidden="true">
+      <span class="dot dot-close"></span>
+      <span class="dot dot-min"></span>
+      <span class="dot dot-max"></span>
+    </div>
+    <div class="title" aria-label="Window title">{windowTitle}</div>
+    <div class="spacer" aria-hidden="true"></div>
+  </div>
+
+  <div class="content">
+    <pre class="ascii" aria-label="ASCII header">{profile.titleAscii.join("\n")}</pre>
+
+    <div class="system">
+      <div class="line">
+        <span class="tag">[system]</span> Initializing Portfolio v1.0.0…
+      </div>
+      <div class="line">
+        <span class="tag">[system]</span> Loading profile: Developer… OK
+      </div>
+      <div class="line">
+        <span class="tag">[system]</span> Status: Ready.
+      </div>
+    </div>
+
+    <div class="separator" aria-hidden="true"></div>
+    <Command command={`cat ${profile.bioTitle}`} variant="title" />
+    <Section tone="muted">
+      <div class="paragraphs">
+        {profile.bio.map((p) =>
+          p === "" ? <div class="spacer-row" aria-hidden="true"></div> : <p>{p}</p>
+        )}
+      </div>
+    </Section>
+
+    <div class="separator" aria-hidden="true"></div>
+    <Command command="history --experience" variant="title" />
+    <Section>
+      <div class="experience">
+        {profile.experience.map((item) => (
+          <div class="exp">
+            <div class="exp-head">
+              <span class="range">[{item.range}]</span>
+              <span class="role">{item.role}</span>
+              <span class="sep">•</span>
+              <span class="company">{item.company}</span>
+            </div>
+            <ul class="exp-bullets">
+              {item.bullets.map((b) => (
+                <li>{b}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </Section>
+
+    <div class="separator" aria-hidden="true"></div>
+    <Command command="ls -l projects/" variant="title" />
+    <Section>
+      <div class="projects">
+        {profile.projects.map((p) => (
+          <article class="project">
+            {p.imageSrc ? (
+              <div class="project-media">
+                <img class="project-img" src={p.imageSrc} alt={`Vista referencial de ${p.name}`} loading="lazy" />
+              </div>
+            ) : null}
+            <div class="project-head">
+              <div class="project-name">{p.name}</div>
+              <div class="project-sub">{p.subtitle}</div>
+            </div>
+            <div class="project-desc">{p.description}</div>
+            <div class="project-tech">
+              <span class="label">Tech:</span>{" "}
+              <span class="list">{p.tech.join(" / ")}</span>
+            </div>
+            <div class="actions">
+              {p.hrefLive ? (
+                <a class="btn btn-primary" href={p.hrefLive} target="_blank" rel="noreferrer">
+                  Live Demo
+                  <span class="cursorish" aria-hidden="true">_</span>
+                </a>
+              ) : null}
+              {p.hrefSource ? (
+                <a class="btn btn-ghost" href={p.hrefSource} target="_blank" rel="noreferrer">
+                  Source Code
+                  <span class="cursorish" aria-hidden="true">_</span>
+                </a>
+              ) : null}
+            </div>
+          </article>
+        ))}
+      </div>
+    </Section>
+
+    <div class="separator" aria-hidden="true"></div>
+    <Command command="tools --list" variant="title" />
+    <Section>
+      <div class="tools">
+        <div class="toolcol">
+          <div class="tooltitle">/backend</div>
+          <ul>
+            {profile.tools.backend.map((t) => {
+              const tool = t as any;
+              const label = typeof tool === "string" ? tool : tool.label;
+              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
+              return (
+                <li>
+                  <span class="toolitem">
+                    {iconSrc ? (
+                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+                    ) : null}
+                    <span>{label}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div class="toolcol">
+          <div class="tooltitle">/frontend</div>
+          <ul>
+            {profile.tools.frontend.map((t) => {
+              const tool = t as any;
+              const label = typeof tool === "string" ? tool : tool.label;
+              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
+              return (
+                <li>
+                  <span class="toolitem">
+                    {iconSrc ? (
+                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+                    ) : null}
+                    <span>{label}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div class="toolcol">
+          <div class="tooltitle">/Databases</div>
+          <ul>
+            {profile.tools.databases.map((t) => {
+              const tool = t as any;
+              const label = typeof tool === "string" ? tool : tool.label;
+              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
+              return (
+                <li>
+                  <span class="toolitem">
+                    {iconSrc ? (
+                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+                    ) : null}
+                    <span>{label}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        <div class="toolcol">
+          <div class="tooltitle">/infrastructure</div>
+          <ul>
+            {profile.tools.infrastructure.map((t) => {
+              const tool = t as any;
+              const label = typeof tool === "string" ? tool : tool.label;
+              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
+              return (
+                <li>
+                  <span class="toolitem">
+                    {iconSrc ? (
+                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+                    ) : null}
+                    <span>{label}</span>
+                  </span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+    </Section>
+
+    <Command command="send_message --to:me" variant="title" showCursor={false} />
+    <div class="footer">
+      <div class="footer-left" aria-hidden="true">⟵</div>
+      <nav class="footer-links" aria-label="Links">
+        {profile.links.map((l) => (
+          <a class="footer-link" href={l.href} target={l.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer">
+            <img class="footer-icon" src={l.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+            <span>{l.label}</span>
+          </a>
+        ))}
+      </nav>
+      <div class="footer-cursor">
+        <Cursor variant="block" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .window {
+    border: 1px solid var(--surface-high);
+    background: linear-gradient(180deg, var(--surface-lowest), var(--bg));
+  }
+
+  .titlebar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 44px;
+    background: var(--surface-low);
+    border-bottom: 1px solid var(--surface-high);
+    padding: 0 calc(var(--grid) * 5);
+  }
+
+  .controls {
+    display: inline-flex;
+    gap: calc(var(--grid) * 2);
+    align-items: center;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.35);
+    display: inline-block;
+  }
+  .dot-close {
+    background: #ff5f57;
+  }
+  .dot-min {
+    background: #febc2e;
+  }
+  .dot-max {
+    background: #28c840;
+  }
+
+  .title {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--text-muted);
+    letter-spacing: 0.02em;
+    user-select: none;
+  }
+
+  .spacer {
+    justify-self: end;
+  }
+
+  .content {
+    padding: calc(var(--grid) * 6);
+  }
+
+  .ascii {
+    margin: 0 0 calc(var(--grid) * 4) 0;
+    font-family: var(--font-code);
+    font-size: 12px;
+    line-height: 1.2;
+    color: var(--accent-strong);
+    white-space: pre;
+  }
+
+  .system {
+    margin-bottom: calc(var(--grid) * 6);
+    color: var(--text-muted);
+    font-family: var(--font-code);
+    font-size: 13px;
+  }
+
+  .separator {
+    height: 1px;
+    margin: calc(var(--grid) * 3) 0 calc(var(--grid) * 5) 0;
+    background: linear-gradient(
+      90deg,
+      rgba(129, 230, 217, 0.0),
+      rgba(129, 230, 217, 0.35),
+      rgba(129, 230, 217, 0.0)
+    );
+  }
+
+  .system .line {
+    margin: calc(var(--grid) * 1) 0;
+  }
+
+  .tag {
+    color: rgba(129, 230, 217, 0.8);
+  }
+
+  .paragraphs p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    font-family: var(--font-ui);
+  }
+
+  .spacer-row {
+    height: calc(var(--grid) * 3);
+  }
+
+  .experience {
+    display: grid;
+    gap: calc(var(--grid) * 5);
+  }
+
+  .exp-head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(var(--grid) * 2);
+    align-items: baseline;
+    font-family: var(--font-code);
+  }
+
+  .range {
+    color: var(--text);
+  }
+
+  .role {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .company {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .sep {
+    color: var(--accent);
+  }
+
+  .exp-bullets {
+    margin: calc(var(--grid) * 2) 0 0 0;
+    padding-left: calc(var(--grid) * 6);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .exp-bullets li {
+    margin: calc(var(--grid) * 1) 0;
+    white-space: pre-line;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: calc(var(--grid) * 6);
+  }
+
+  @media (max-width: 900px) {
+    .projects {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .project {
+    background: rgba(28, 27, 27, 0.75);
+    border: 1px solid var(--surface-high);
+    padding: calc(var(--grid) * 5);
+  }
+
+  .project-media {
+    border: 1px solid var(--surface-highest);
+    background: rgba(14, 14, 14, 0.55);
+    margin: 0 0 calc(var(--grid) * 4) 0;
+    overflow: hidden;
+  }
+
+  .project-img {
+    display: block;
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+  }
+
+  .project:hover {
+    border-color: rgba(129, 230, 217, 0.5);
+  }
+
+  .project-name {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: var(--font-ui);
+  }
+
+  .project-sub {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: calc(var(--grid) * 1);
+  }
+
+  .project-desc {
+    margin-top: calc(var(--grid) * 3);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .project-tech {
+    margin-top: calc(var(--grid) * 3);
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .label {
+    color: rgba(129, 230, 217, 0.85);
+  }
+
+  .actions {
+    display: flex;
+    gap: calc(var(--grid) * 3);
+    margin-top: calc(var(--grid) * 4);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--grid) * 2);
+    padding: calc(var(--grid) * 2) calc(var(--grid) * 3);
+    font-size: 12px;
+    font-family: var(--font-code);
+    border: 1px solid transparent;
+    user-select: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0e0e0e;
+    border-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: rgba(229, 226, 225, 0.7);
+  }
+
+  .btn:hover .cursorish {
+    opacity: 1;
+  }
+
+  .cursorish {
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
+
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: calc(var(--grid) * 6);
+  }
+
+  @media (max-width: 900px) {
+    .tools {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tooltitle {
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: rgba(129, 230, 217, 0.85);
+    margin-bottom: calc(var(--grid) * 2);
+  }
+
+  .toolcol ul {
+    margin: 0;
+    padding-left: calc(var(--grid) * 5);
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .toolcol li {
+    margin: calc(var(--grid) * 1) 0;
+  }
+
+  .toolitem {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--grid) * 2);
+  }
+
+  .toolicon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.9;
+    flex: 0 0 auto;
+  }
+
+  .footer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: calc(var(--grid) * 4);
+    margin-top: calc(var(--grid) * 7);
+    padding-top: calc(var(--grid) * 4);
+    border-top: 1px solid var(--surface-high);
+    color: var(--text-muted);
+    font-family: var(--font-code);
+    font-size: 12px;
+  }
+
+  .footer-links {
+    display: inline-flex;
+    gap: calc(var(--grid) * 4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--grid) * 2);
+    padding: calc(var(--grid) * 1) calc(var(--grid) * 2);
+    border: 1px solid transparent;
+  }
+
+  .footer-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.9;
+  }
+
+  .footer-link:hover {
+    border-color: rgba(129, 230, 217, 0.35);
+    color: var(--text);
+  }
+</style>

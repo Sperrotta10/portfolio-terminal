@@ -1,0 +1,51 @@
+---
+import Cursor from "./Cursor.astro";
+
+export interface Props {
+  prompt?: string;
+  command: string;
+  showCursor?: boolean;
+  variant?: "normal" | "title";
+}
+
+const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.props;
+---
+
+<div class={`command v-${variant}`}>
+  <span class="prompt">{prompt}</span>
+  <span class="cmd">{command}</span>
+  {showCursor ? <Cursor /> : null}
+</div>
+
+<style>
+  .command {
+    display: flex;
+    gap: calc(var(--grid) * 2);
+    align-items: baseline;
+    color: var(--text);
+    font-family: var(--font-code);
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+  }
+
+  .command.v-title {
+    margin-top: calc(var(--grid) * 6);
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  .prompt {
+    color: var(--accent);
+    user-select: none;
+  }
+
+  .cmd {
+    color: var(--text);
+  }
+
+  .command.v-title .cmd {
+    color: var(--accent-strong);
+    font-weight: 600;
+  }
+</style>

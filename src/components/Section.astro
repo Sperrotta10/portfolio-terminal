@@ -1,0 +1,31 @@
+---
+export interface Props {
+  tone?: "normal" | "muted" | "accent";
+}
+
+const { tone = "normal" } = Astro.props;
+---
+
+<section class={`section tone-${tone}`}>
+  <slot />
+</section>
+
+<style>
+  .section {
+    margin-top: calc(var(--grid) * 4);
+    padding-left: calc(var(--grid) * 4);
+    border-left: 2px solid rgba(129, 230, 217, 0.5);
+  }
+
+  .tone-normal {
+    color: var(--text);
+  }
+
+  .tone-muted {
+    color: var(--text-muted);
+  }
+
+  .tone-accent {
+    color: var(--accent-strong);
+  }
+</style>
