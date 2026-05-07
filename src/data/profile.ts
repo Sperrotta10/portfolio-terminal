@@ -10,7 +10,7 @@ export type ProjectItem = {
   subtitle: string;
   description: string;
   tech: string[];
-  imageSrc?: string;
+  images?: string[];
   hrefLive?: string;
   hrefSource?: string;
 };
@@ -74,14 +74,19 @@ export const profile: Profile = {
   ],
   projects: [
     {
-      name: "AI‑Powered Code Editor",
-      subtitle: "Editor con features asistidas por IA",
+      name: "Ecommerce MSJ Market",
+      subtitle: "",
       description:
-        "Explora, refactoriza y documenta código con un flujo tipo terminal y comandos rápidos.",
+        "Aplicación web diseñada para optimizar la experiencia de compras en mini-mercados mediante la creación de listas personalizadas, gestión de disponibilidad de productos y fidelización de usuarios a través de un sistema de suscripción.",
       tech: ["TypeScript", "Astro", "React"],
-      imageSrc: "/projects/ai-powered-code-editor.svg",
-      hrefLive: "#",
-      hrefSource: "#",
+      images: [
+        "/projects/mini-mercado/1.webp",
+        "/projects/mini-mercado/2.webp",
+        "/projects/mini-mercado/3.webp",
+        "/projects/mini-mercado/4.webp",
+      ],
+      hrefLive: "https://mini-mercado-nine.vercel.app/",
+      hrefSource: "https://github.com/Sperrotta10/Mini-Mercado",
     },
     {
       name: "Distributed File System",
@@ -89,27 +94,39 @@ export const profile: Profile = {
       description:
         "Sistema distribuido con réplicas, tolerancia a fallos y APIs gRPC para operaciones de archivos.",
       tech: ["Rust", "gRPC", "Docker"],
-      imageSrc: "/projects/distributed-file-system.svg",
+      images: [
+        "/projects/distributed-file-system.svg",
+        "/projects/ai-powered-code-editor.svg",
+        "/projects/mini-mercado/1.webp"
+      ],
       hrefLive: "#",
       hrefSource: "#",
     },
     {
-      name: "AI‑Powered Code Editor",
-      subtitle: "Editor con features asistidas por IA",
+      name: "Cloud Dashboard",
+      subtitle: "Monitoreo en tiempo real",
       description:
-        "Explora, refactoriza y documenta código con un flujo tipo terminal y comandos rápidos.",
-      tech: ["TypeScript", "Astro", "React"],
-      imageSrc: "/projects/ai-powered-code-editor.svg",
+        "Dashboard interactivo para visualizar métricas de infraestructura cloud en tiempo real.",
+      tech: ["Next.js", "Tailwind", "D3.js"],
+      images: [
+        "/projects/ai-powered-code-editor.svg",
+        "/projects/distributed-file-system.svg",
+        "/projects/mini-mercado/1.webp"
+      ],
       hrefLive: "#",
       hrefSource: "#",
     },
     {
-      name: "Distributed File System",
-      subtitle: "DFS con consistencia fuerte",
+      name: "Mobile Wallet",
+      subtitle: "Gestión de activos digitales",
       description:
-        "Sistema distribuido con réplicas, tolerancia a fallos y APIs gRPC para operaciones de archivos.",
-      tech: ["Rust", "gRPC", "Docker"],
-      imageSrc: "/projects/distributed-file-system.svg",
+        "Billetera digital segura para el manejo de transacciones y portafolio de criptoactivos.",
+      tech: ["React Native", "Firebase", "Web3"],
+      images: [
+        "/projects/distributed-file-system.svg",
+        "/projects/mini-mercado/1.webp",
+        "/projects/ai-powered-code-editor.svg"
+      ],
       hrefLive: "#",
       hrefSource: "#",
     },
@@ -163,4 +180,3 @@ export const profile: Profile = {
   ],
   cvUrl: "/sperrotta_cv.pdf",
 };
-
