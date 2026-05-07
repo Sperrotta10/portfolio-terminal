@@ -30,6 +30,7 @@ export type Profile = {
   projects: ProjectItem[];
   tools: ToolsList;
   links: { label: string; href: string; iconSrc: string }[];
+  cvUrl?: string;
 };
 
 export const profile: Profile = {
@@ -49,13 +50,13 @@ export const profile: Profile = {
   ],
   bioTitle: "bio.md",
   bio: [
-    "Hola👋, soy Santiago Perrotta, Ingeniero en Computación y desarrollador Full Stack.",
+    "Hola👋, soy <span class='highlight'>Santiago Perrotta</span>, <span class='highlight'>Ingeniero en Computación</span> y desarrollador <span class='highlight'>Full Stack</span>.",
     "Llevo cuatro años en el mundo de la programación y me especializo principalmente",
-    "en el desarrollo del backend. Me atrae la lógica que sostiene las aplicaciones y",
-    "disfruto construyendo arquitecturas sólidas.",
+    "en el desarrollo del <span class='highlight'>backend</span>. Me atrae la lógica que sostiene las aplicaciones y",
+    "disfruto construyendo <span class='highlight'>arquitecturas sólidas</span>.",
     "",
     "Tengo una mentalidad analítica y visual que me permite observar los problemas de mi",
-    "entorno para transformarlos en soluciones tecnológicas reales. Para mí, programar es",
+    "entorno para transformarlos en <span class='highlight'>soluciones tecnológicas reales</span>. Para mí, programar es",
     "una herramienta de resolución. Siempre busco aprender nuevas tecnologías con el objetivo",
     "de encontrar formas más eficientes de enfrentar cada reto técnico que se me presente.",
   ],
@@ -65,9 +66,9 @@ export const profile: Profile = {
       role: "Desarrollador Full Stack (Pasantia)",
       company: "Orquesta Sinfonica de Carabobo",
       bullets: [
-        "Desarrollé e implementé un sistema interno para administrar pagos y organizar la información\n estudiantil de la orquesta.",
-        "Estructuré módulos clave para la gestión de estudiantes (información personal, materias y\n balance financiero), cátedras (profesores, materias y costos) y pagos (transacciones con\n emisores, métodos y referencias), con persistencia en MySQL.",
-        "Automaticé la generación de reportes en PDF para facilitar el control y la transparencia\n financiera (HTML/CSS/JS + Node.js/Express).",
+        "<span class='highlight'>Desarrollé</span> e <span class='highlight'>implementé</span> un sistema interno para administrar pagos y organizar la información\n estudiantil de la orquesta.",
+        "<span class='highlight'>Estructuré</span> módulos clave para la gestión de <span class='highlight'>estudiantes</span> (información personal, materias y\n balance financiero), <span class='highlight'>cátedras</span> (profesores, materias y costos) y <span class='highlight'>pagos</span> (transacciones con\n emisores, métodos y referencias), con persistencia en <span class='highlight'>MySQL</span>.",
+        "<span class='highlight'>Automaticé</span> la generación de reportes en PDF para facilitar el control y la transparencia\n financiera (<span class='highlight'>HTML/CSS/JS + Node.js/Express</span>).",
       ],
     },
   ],
@@ -149,7 +150,7 @@ export const profile: Profile = {
       href: "https://www.linkedin.com/in/santiago-perrotta/",
       iconSrc: "/social/linkedin.svg",
     },
-    { 
+    {
       label: "GitHub",
       href: "https://github.com/Sperrotta10",
       iconSrc: "/social/GitHub_dark.svg"
@@ -157,8 +158,9 @@ export const profile: Profile = {
     {
       label: "Email",
       href: "mailto:sperrottaa10@gmail.com",
-      iconSrc: "/social/gmail.svg" 
+      iconSrc: "/social/gmail.svg"
     },
   ],
+  cvUrl: "/sperrotta_cv.pdf",
 };
 

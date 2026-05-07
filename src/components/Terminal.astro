@@ -24,7 +24,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   </div>
 
   <div class="content">
-    <pre class="ascii" aria-label="ASCII header">{profile.titleAscii.join("\n")}</pre>
+    <pre
+      class="ascii"
+      aria-label="ASCII header">{profile.titleAscii.join("\n")}</pre>
 
     <div class="system">
       <div class="line">
@@ -36,15 +38,24 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
       <div class="line">
         <span class="tag">[system]</span> Status: Ready.
       </div>
+      <div class="line">
+        <span class="tag">[system]</span> Hint: Use <a href="#contact" class="system-link">--contact</a> or <a href={profile.cvUrl || "#"} class="system-link" download>--download-cv</a> to start.
+      </div>
     </div>
 
     <div class="separator" aria-hidden="true"></div>
     <Command command={`cat ${profile.bioTitle}`} variant="title" />
     <Section tone="muted">
       <div class="paragraphs">
-        {profile.bio.map((p) =>
-          p === "" ? <div class="spacer-row" aria-hidden="true"></div> : <p>{p}</p>
-        )}
+        {
+          profile.bio.map((p) =>
+            p === "" ? (
+              <div class="spacer-row" aria-hidden="true" />
+            ) : (
+              <p set:html={p} />
+            )
+          )
+        }
       </div>
     </Section>
 
@@ -52,21 +63,23 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     <Command command="history --experience" variant="title" />
     <Section>
       <div class="experience">
-        {profile.experience.map((item) => (
-          <div class="exp">
-            <div class="exp-head">
-              <span class="range">[{item.range}]</span>
-              <span class="role">{item.role}</span>
-              <span class="sep">•</span>
-              <span class="company">{item.company}</span>
+        {
+          profile.experience.map((item) => (
+            <div class="exp">
+              <div class="exp-head">
+                <span class="range">[{item.range}]</span>
+                <span class="role">{item.role}</span>
+                <span class="sep">•</span>
+                <span class="company">{item.company}</span>
+              </div>
+              <ul class="exp-bullets">
+                {item.bullets.map((b) => (
+                  <li set:html={b} />
+                ))}
+              </ul>
             </div>
-            <ul class="exp-bullets">
-              {item.bullets.map((b) => (
-                <li>{b}</li>
-              ))}
-            </ul>
-          </div>
-        ))}
+          ))
+        }
       </div>
     </Section>
 
@@ -74,38 +87,59 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     <Command command="ls -l projects/" variant="title" />
     <Section>
       <div class="projects">
-        {profile.projects.map((p) => (
-          <article class="project">
-            {p.imageSrc ? (
-              <div class="project-media">
-                <img class="project-img" src={p.imageSrc} alt={`Vista referencial de ${p.name}`} loading="lazy" />
+        {
+          profile.projects.map((p) => (
+            <article class="project">
+              {p.imageSrc ? (
+                <div class="project-media">
+                  <img
+                    class="project-img"
+                    src={p.imageSrc}
+                    alt={`Vista referencial de ${p.name}`}
+                    loading="lazy"
+                  />
+                </div>
+              ) : null}
+              <div class="project-head">
+                <div class="project-name">{p.name}</div>
+                <div class="project-sub">{p.subtitle}</div>
               </div>
-            ) : null}
-            <div class="project-head">
-              <div class="project-name">{p.name}</div>
-              <div class="project-sub">{p.subtitle}</div>
-            </div>
-            <div class="project-desc">{p.description}</div>
-            <div class="project-tech">
-              <span class="label">Tech:</span>{" "}
-              <span class="list">{p.tech.join(" / ")}</span>
-            </div>
-            <div class="actions">
-              {p.hrefLive ? (
-                <a class="btn btn-primary" href={p.hrefLive} target="_blank" rel="noreferrer">
-                  Live Demo
-                  <span class="cursorish" aria-hidden="true">_</span>
-                </a>
-              ) : null}
-              {p.hrefSource ? (
-                <a class="btn btn-ghost" href={p.hrefSource} target="_blank" rel="noreferrer">
-                  Source Code
-                  <span class="cursorish" aria-hidden="true">_</span>
-                </a>
-              ) : null}
-            </div>
-          </article>
-        ))}
+              <div class="project-desc">{p.description}</div>
+              <div class="project-tech">
+                <span class="label">Tech:</span>{" "}
+                <span class="list">{p.tech.join(" / ")}</span>
+              </div>
+              <div class="actions">
+                {p.hrefLive ? (
+                  <a
+                    class="btn btn-primary"
+                    href={p.hrefLive}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Live Demo
+                    <span class="cursorish" aria-hidden="true">
+                      _
+                    </span>
+                  </a>
+                ) : null}
+                {p.hrefSource ? (
+                  <a
+                    class="btn btn-ghost"
+                    href={p.hrefSource}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Source Code
+                    <span class="cursorish" aria-hidden="true">
+                      _
+                    </span>
+                  </a>
+                ) : null}
+              </div>
+            </article>
+          ))
+        }
       </div>
     </Section>
 
@@ -116,96 +150,156 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
         <div class="toolcol">
           <div class="tooltitle">/backend</div>
           <ul>
-            {profile.tools.backend.map((t) => {
-              const tool = t as any;
-              const label = typeof tool === "string" ? tool : tool.label;
-              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
-              return (
-                <li>
-                  <span class="toolitem">
-                    {iconSrc ? (
-                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-                    ) : null}
-                    <span>{label}</span>
-                  </span>
-                </li>
-              );
-            })}
+            {
+              profile.tools.backend.map((t) => {
+                const tool = t as any;
+                const label = typeof tool === "string" ? tool : tool.label;
+                const iconSrc =
+                  typeof tool === "string" ? undefined : tool.iconSrc;
+                return (
+                  <li>
+                    <span class="toolitem">
+                      {iconSrc ? (
+                        <img
+                          class="toolicon"
+                          src={iconSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{label}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
         <div class="toolcol">
           <div class="tooltitle">/frontend</div>
           <ul>
-            {profile.tools.frontend.map((t) => {
-              const tool = t as any;
-              const label = typeof tool === "string" ? tool : tool.label;
-              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
-              return (
-                <li>
-                  <span class="toolitem">
-                    {iconSrc ? (
-                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-                    ) : null}
-                    <span>{label}</span>
-                  </span>
-                </li>
-              );
-            })}
+            {
+              profile.tools.frontend.map((t) => {
+                const tool = t as any;
+                const label = typeof tool === "string" ? tool : tool.label;
+                const iconSrc =
+                  typeof tool === "string" ? undefined : tool.iconSrc;
+                return (
+                  <li>
+                    <span class="toolitem">
+                      {iconSrc ? (
+                        <img
+                          class="toolicon"
+                          src={iconSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{label}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
         <div class="toolcol">
           <div class="tooltitle">/Databases</div>
           <ul>
-            {profile.tools.databases.map((t) => {
-              const tool = t as any;
-              const label = typeof tool === "string" ? tool : tool.label;
-              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
-              return (
-                <li>
-                  <span class="toolitem">
-                    {iconSrc ? (
-                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-                    ) : null}
-                    <span>{label}</span>
-                  </span>
-                </li>
-              );
-            })}
+            {
+              profile.tools.databases.map((t) => {
+                const tool = t as any;
+                const label = typeof tool === "string" ? tool : tool.label;
+                const iconSrc =
+                  typeof tool === "string" ? undefined : tool.iconSrc;
+                return (
+                  <li>
+                    <span class="toolitem">
+                      {iconSrc ? (
+                        <img
+                          class="toolicon"
+                          src={iconSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{label}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
         <div class="toolcol">
           <div class="tooltitle">/infrastructure</div>
           <ul>
-            {profile.tools.infrastructure.map((t) => {
-              const tool = t as any;
-              const label = typeof tool === "string" ? tool : tool.label;
-              const iconSrc = typeof tool === "string" ? undefined : tool.iconSrc;
-              return (
-                <li>
-                  <span class="toolitem">
-                    {iconSrc ? (
-                      <img class="toolicon" src={iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-                    ) : null}
-                    <span>{label}</span>
-                  </span>
-                </li>
-              );
-            })}
+            {
+              profile.tools.infrastructure.map((t) => {
+                const tool = t as any;
+                const label = typeof tool === "string" ? tool : tool.label;
+                const iconSrc =
+                  typeof tool === "string" ? undefined : tool.iconSrc;
+                return (
+                  <li>
+                    <span class="toolitem">
+                      {iconSrc ? (
+                        <img
+                          class="toolicon"
+                          src={iconSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{label}</span>
+                    </span>
+                  </li>
+                );
+              })
+            }
           </ul>
         </div>
       </div>
     </Section>
 
-    <Command command="send_message --to:me" variant="title" showCursor={false} />
+    <div id="contact">
+      <Command
+        command="send_message --to:me"
+        variant="title"
+        showCursor={false}
+      />
+    </div>
     <div class="footer">
       <div class="footer-left" aria-hidden="true">⟵</div>
       <nav class="footer-links" aria-label="Links">
-        {profile.links.map((l) => (
-          <a class="footer-link" href={l.href} target={l.href.startsWith("mailto:") ? undefined : "_blank"} rel="noreferrer">
-            <img class="footer-icon" src={l.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-            <span>{l.label}</span>
-          </a>
-        ))}
+        {
+          profile.links.map((l) => (
+            <a
+              class="footer-link"
+              href={l.href}
+              target={l.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel="noreferrer"
+            >
+              <img
+                class="footer-icon"
+                src={l.iconSrc}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
+              <span>{l.label}</span>
+            </a>
+          ))
+        }
       </nav>
       <div class="footer-cursor">
         <Cursor variant="block" />
@@ -295,9 +389,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     margin: calc(var(--grid) * 3) 0 calc(var(--grid) * 5) 0;
     background: linear-gradient(
       90deg,
-      rgba(129, 230, 217, 0.0),
+      rgba(129, 230, 217, 0),
       rgba(129, 230, 217, 0.35),
-      rgba(129, 230, 217, 0.0)
+      rgba(129, 230, 217, 0)
     );
   }
 
@@ -309,6 +403,19 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     color: rgba(129, 230, 217, 0.8);
   }
 
+  .system-link {
+    color: var(--accent-strong);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--accent-strong);
+    transition: all 0.2s ease;
+  }
+
+  .system-link:hover {
+    color: var(--accent);
+    border-bottom-style: solid;
+    background: rgba(129, 230, 217, 0.1);
+  }
+
   .paragraphs p {
     margin: 0;
     font-size: 14px;
@@ -318,6 +425,11 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 
   .spacer-row {
     height: calc(var(--grid) * 3);
+  }
+
+  :global(.highlight) {
+    color: var(--accent-strong);
+    font-weight: 500;
   }
 
   .experience {
