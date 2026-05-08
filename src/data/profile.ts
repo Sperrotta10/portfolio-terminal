@@ -74,10 +74,10 @@ export const profile: Profile = {
   ],
   projects: [
     {
-      name: "Ecommerce MSJ Market",
-      subtitle: "E-commerce inteligente con fidelización y gestión de inventario",
+      name: "MSJ Market - Gestión de un Mini-Mercado",
+      subtitle: "Plataforma inteligente con fidelización y gestión de inventario",
       description:
-        "Aplicación web diseñada para optimizar la experiencia de compras en mini-mercados mediante la creación de listas personalizadas, gestión de disponibilidad de productos y fidelización de usuarios a través de un sistema de suscripción.",
+        "Plataforma web diseñada para optimizar la experiencia de compras en mini-mercados mediante la creación de listas personalizadas, gestión de disponibilidad de productos y fidelización de usuarios a través de un sistema de suscripción.",
       tech: [
         { label: "Vue 3", iconSrc: "/code/frontend/vue.svg" },
         { label: "Javascript", iconSrc: "/code/frontend/javascript.svg" },
@@ -98,19 +98,24 @@ export const profile: Profile = {
       hrefSource: "https://github.com/Sperrotta10/Mini-Mercado",
     },
     {
-      name: "Distributed File System",
-      subtitle: "DFS con consistencia fuerte",
+      name: "Fixit - Gestión y Conexión de Servicios Técnicos",
+      subtitle: "Plataforma móvil con geolocalización, chat en tiempo real y control de reparaciones",
       description:
-        "Sistema distribuido con réplicas, tolerancia a fallos y APIs gRPC para operaciones de archivos.",
+        "Aplicación móvil diseñada para conectar usuarios con soporte técnico especializado mediante un mapa interactivo para ubicación de servicios, un sistema de chat integrado para comunicación directa y una arquitectura híbrida de datos que garantiza el seguimiento preciso de cada orden de trabajo.",
       tech: [
-        { label: "Rust", iconSrc: "" },
-        { label: "gRPC", iconSrc: "" },
-        { label: "Docker", iconSrc: "/code/infrastructure/docker.svg" },
+        { label: "React Native", iconSrc: "/code/frontend/React_dark.svg" },
+        { label: "Expo", iconSrc: "/code/frontend/expo.svg" },
+        { label: "Javascript", iconSrc: "/code/frontend/javascript.svg" },
+        { label: "Node.js", iconSrc: "/code/backend/nodejs.svg" },
+        { label: "Express.js", iconSrc: "/code/backend/Express.js_dark.svg" },
+        { label: "MySQL", iconSrc: "/code/databases/MySQL_dark.svg" },
+        { label: "Firebase", iconSrc: "/code/databases/firebase.svg" },
       ],
       images: [
-        "/projects/distributed-file-system.svg",
-        "/projects/ai-powered-code-editor.svg",
-        "/projects/mini-mercado/1.webp"
+        "/projects/fixit/1.webp",
+        "/projects/fixit/2.webp",
+        "/projects/fixit/3.webp",
+        "/projects/fixit/4.webp",
       ],
       hrefLive: "#",
       hrefSource: "#",

@@ -46,6 +46,9 @@ Los SVG usados por el perfil viven en `public/`, por ejemplo:
 
 En `profile.ts` se referencian como rutas absolutas (ej. `"/projects/ai-powered-code-editor.svg"`).
 
+**Nota:** Los iconos de las tecnologías y herramientas utilizados en este proyecto no son de mi autoría; han sido obtenidos de [svgl.app](https://svgl.app/).
+
+
 ## Estructura del proyecto (resumen)
 
 ```text
