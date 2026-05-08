@@ -52,7 +52,7 @@ export const profile: Profile = {
   bioTitle: "bio.md",
   bio: [
     "Hola👋, soy <span class='highlight'>Santiago Perrotta</span>, <span class='highlight'>Ingeniero en Computación</span> y desarrollador <span class='highlight'>Full Stack</span>.",
-    "Llevo cuatro años en el mundo de la programación y me especializo principalmente",
+    "Llevo tres años en el mundo de la programación y me especializo principalmente",
     "en el desarrollo del <span class='highlight'>backend</span>. Me atrae la lógica que sostiene las aplicaciones y",
     "disfruto construyendo <span class='highlight'>arquitecturas sólidas</span>.",
     "",
