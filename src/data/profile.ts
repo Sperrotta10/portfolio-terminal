@@ -11,6 +11,7 @@ export type ProjectItem = {
   description: string;
   tech: { label: string; iconSrc: string }[];
   images?: string[];
+  isMobile?: boolean;
   hrefLive?: string;
   hrefSource?: string;
 };
@@ -102,6 +103,7 @@ export const profile: Profile = {
       subtitle: "Plataforma móvil con geolocalización, chat en tiempo real y control de reparaciones",
       description:
         "Aplicación móvil diseñada para conectar usuarios con soporte técnico especializado mediante un mapa interactivo para ubicación de servicios, un sistema de chat integrado para comunicación directa y una arquitectura híbrida de datos que garantiza el seguimiento preciso de cada orden de trabajo.",
+      isMobile: true,
       tech: [
         { label: "React Native", iconSrc: "/code/frontend/React_dark.svg" },
         { label: "Expo", iconSrc: "/code/frontend/expo.svg" },
@@ -121,40 +123,47 @@ export const profile: Profile = {
       hrefSource: "#",
     },
     {
-      name: "Cloud Dashboard",
-      subtitle: "Monitoreo en tiempo real",
+      name: "Nami - Asistente Inteligente de Finanzas Personales",
+      subtitle: "Plataforma de autogestión financiera con IA, OCR y control multi-moneda",
       description:
-        "Dashboard interactivo para visualizar métricas de infraestructura cloud en tiempo real.",
+        "Asistente inteligente diseñado para automatizar el registro de gastos mediante el escaneo de facturas con OCR y categorización automática por IA. La plataforma optimiza la administración de finanzas personales ofreciendo visualización de datos en tiempo real, presupuestos personalizados y soporte completo para múltiples divisas.",
+      isMobile: true,
       tech: [
-        { label: "Next.js", iconSrc: "" },
-        { label: "Tailwind", iconSrc: "/code/frontend/tailwindcss.svg" },
-        { label: "D3.js", iconSrc: "" },
+        { label: "Flutter", iconSrc: "/code/frontend/flutter.svg" },
+        { label: "Dart", iconSrc: "/code/frontend/dart.svg" },
+        { label: "FastApi", iconSrc: "/code/backend/fastapi.svg" },
+        { label: "Supabase", iconSrc: "/code/databases/supabase.svg" },
+        { label: "Docker", iconSrc: "/code/infrastructure/docker.svg" },
+        { label: "GitHub Actions", iconSrc: "/code/infrastructure/GitHub-Actions.svg" },
+        { label: "Google Cloud", iconSrc: "/code/infrastructure/google-cloud.svg" },
+        { label: "Dokploy", iconSrc: "/code/infrastructure/dokploy-dark.svg" },
       ],
       images: [
-        "/projects/ai-powered-code-editor.svg",
-        "/projects/distributed-file-system.svg",
-        "/projects/mini-mercado/1.webp"
+        "/projects/nami/1.webp",
+        "/projects/nami/2.webp",
+        "/projects/nami/3.webp",
+        "/projects/nami/4.webp",
       ],
       hrefLive: "#",
       hrefSource: "#",
     },
     {
-      name: "Mobile Wallet",
-      subtitle: "Gestión de activos digitales",
+      name: "Trunks Legacy - Videojuego 2D",
+      subtitle: "Videojuego estilo survival",
       description:
-        "Billetera digital segura para el manejo de transacciones y portafolio de criptoactivos.",
+        "Es un videojuego académico en 2D desarrollado en Unity, inspirado en el universo de Dragon Ball. El juego consiste en un modo supervivencia por oleadas, en el que dos personajes se enfrentan a enemigos cada vez más poderosos.",
       tech: [
-        { label: "React Native", iconSrc: "" },
-        { label: "Firebase", iconSrc: "" },
-        { label: "Web3", iconSrc: "" },
+        { label: "Unity", iconSrc: "/code/frontend/Unity_dark.svg" },
+        { label: "C#", iconSrc: "/code/backend/csharp.svg" },
       ],
       images: [
-        "/projects/distributed-file-system.svg",
-        "/projects/mini-mercado/1.webp",
-        "/projects/ai-powered-code-editor.svg"
+        "/projects/trunks-legacy/1.webp",
+        "/projects/trunks-legacy/2.webp",
+        "/projects/trunks-legacy/3.webp",
+        "/projects/trunks-legacy/4.webp"
       ],
       hrefLive: "#",
-      hrefSource: "#",
+      hrefSource: "https://github.com/Sperrotta10/Juego_Unity",
     },
   ],
   tools: {
