@@ -11,7 +11,7 @@ export interface Props {
 const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.props;
 ---
 
-<div class={`command v-${variant}`}>
+<div class={`command ${variant === "title" ? "is-title" : ""}`}>
   <span class="prompt">{prompt}</span>
   <span class="cmd-wrapper">
     <span class="cmd">{command}</span>
@@ -22,23 +22,31 @@ const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.
 <style>
   .command {
     display: flex;
-    gap: calc(var(--grid) * 2);
+    gap: 8px;
     align-items: baseline;
-    color: var(--text);
+    color: var(--color-text);
     font-family: var(--font-code);
-    font-size: 14px;
+    font-size: 13px;
     line-height: 1.65;
     white-space: pre-wrap;
   }
 
-  .command.v-title {
-    margin-top: calc(var(--grid) * 6);
-    font-size: 20px;
+  @media (min-width: 520px) {
+    .command { font-size: 14px; }
+  }
+
+  .command.is-title {
+    margin-top: 24px;
+    font-size: 16px;
     line-height: 1.6;
   }
 
+  @media (min-width: 520px) {
+    .command.is-title { font-size: 20px; }
+  }
+
   .prompt {
-    color: var(--accent);
+    color: var(--color-accent);
     user-select: none;
   }
 
@@ -50,27 +58,10 @@ const { prompt = "$", command, showCursor = false, variant = "normal" } = Astro.
     animation: typing 1.5s steps(40, end) forwards;
   }
 
-  @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
-  }
+  .cmd { color: var(--color-text); }
 
-  .cmd {
-    color: var(--text);
-  }
-
-  .command.v-title .cmd {
-    color: var(--accent-strong);
+  .command.is-title .cmd {
+    color: var(--color-accent-strong);
     font-weight: 600;
-  }
-
-  @media (max-width: 520px) {
-    .command {
-      font-size: 13px;
-    }
-
-    .command.v-title {
-      font-size: 16px;
-    }
   }
 </style>

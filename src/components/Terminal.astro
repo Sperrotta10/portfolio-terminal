@@ -13,24 +13,25 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 ---
 
 <div class="window" role="region" aria-label="Terminal portfolio">
+  <!-- ── Titlebar ── -->
   <div class="titlebar">
-    <div class="controls" aria-hidden="true">
+    <div class="flex gap-2 items-center" aria-hidden="true">
       <span class="dot dot-close"></span>
       <span class="dot dot-min"></span>
       <span class="dot dot-max"></span>
     </div>
     <div class="title" aria-label="Window title">{windowTitle}</div>
-    <div class="spacer" aria-hidden="true"></div>
+    <div aria-hidden="true"></div>
   </div>
 
+  <!-- ── Content ── -->
   <div class="content">
     <pre
       class="ascii glitch-text"
       aria-label="ASCII header"
-      data-text={profile.titleAscii.join(
-        "\n"
-      )}>{profile.titleAscii.join("\n")}</pre>
+      data-text={profile.titleAscii.join("\n")}>{profile.titleAscii.join("\n")}</pre>
 
+    <!-- Boot lines -->
     <div class="system">
       <div class="line boot-line" style="--delay: 0.1s">
         <span class="tag">[system]</span> Initializing Portfolio v1.0.0…
@@ -51,6 +52,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
       </div>
     </div>
 
+    <!-- ── Bio ── -->
     <div class="separator" aria-hidden="true"></div>
     <Command command={`cat ${profile.bioTitle}`} variant="title" />
     <Section tone="muted">
@@ -61,12 +63,13 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               <div class="spacer-row" aria-hidden="true" />
             ) : (
               <p set:html={p} />
-            )
+            ),
           )
         }
       </div>
     </Section>
 
+    <!-- ── Experience ── -->
     <div class="separator" aria-hidden="true"></div>
     <Command command="history --experience" variant="title" />
     <Section>
@@ -77,7 +80,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               <div class="exp-head">
                 <span class="range">[{item.range}]</span>
                 <span class="role">{item.role}</span>
-                <span class="sep">•</span>
+                <span class="exp-sep">•</span>
                 <span class="company">{item.company}</span>
               </div>
               <ul class="exp-bullets">
@@ -91,6 +94,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
       </div>
     </Section>
 
+    <!-- ── Projects ── -->
     <div class="separator" aria-hidden="true"></div>
     <Command command="ls -l projects/" variant="title" />
     <Section>
@@ -112,23 +116,16 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
                     />
                     {p.images.length > 1 && (
                       <div class="carousel-controls">
-                        <button class="carousel-btn prev" aria-label="Anterior">
-                          ‹
-                        </button>
+                        <button class="carousel-btn prev" aria-label="Anterior">‹</button>
                         <div class="carousel-dots">
                           {p.images.map((_, i) => (
                             <span
-                              class={`dot ${i === 0 ? "active" : ""}`}
+                              class={`cdot ${i === 0 ? "active" : ""}`}
                               data-index={i}
                             />
                           ))}
                         </div>
-                        <button
-                          class="carousel-btn next"
-                          aria-label="Siguiente"
-                        >
-                          ›
-                        </button>
+                        <button class="carousel-btn next" aria-label="Siguiente">›</button>
                       </div>
                     )}
                   </div>
@@ -154,29 +151,13 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               </div>
               <div class="actions">
                 {p.hrefLive ? (
-                  <a
-                    class="btn btn-primary"
-                    href={p.hrefLive}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Live Demo
-                    <span class="cursorish" aria-hidden="true">
-                      _
-                    </span>
+                  <a class="btn btn-primary" href={p.hrefLive} target="_blank" rel="noreferrer">
+                    Live Demo<span class="cursorish" aria-hidden="true">_</span>
                   </a>
                 ) : null}
                 {p.hrefSource ? (
-                  <a
-                    class="btn btn-ghost"
-                    href={p.hrefSource}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Source Code
-                    <span class="cursorish" aria-hidden="true">
-                      _
-                    </span>
+                  <a class="btn btn-ghost" href={p.hrefSource} target="_blank" rel="noreferrer">
+                    Source Code<span class="cursorish" aria-hidden="true">_</span>
                   </a>
                 ) : null}
               </div>
@@ -186,139 +167,34 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
       </div>
     </Section>
 
+    <!-- ── Tools ── -->
     <div class="separator" aria-hidden="true"></div>
     <Command command="tools --list" variant="title" />
     <Section>
       <div class="tools">
-        <div class="toolcol">
-          <div class="tooltitle">/backend</div>
-          <ul>
-            {
-              profile.tools.backend.map((t) => {
-                const tool = t as any;
-                const label = typeof tool === "string" ? tool : tool.label;
-                const iconSrc =
-                  typeof tool === "string" ? undefined : tool.iconSrc;
-                return (
-                  <li>
-                    <span class="toolitem">
-                      {iconSrc ? (
-                        <img
-                          class="toolicon"
-                          src={iconSrc}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      <span>{label}</span>
-                    </span>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </div>
-        <div class="toolcol">
-          <div class="tooltitle">/frontend</div>
-          <ul>
-            {
-              profile.tools.frontend.map((t) => {
-                const tool = t as any;
-                const label = typeof tool === "string" ? tool : tool.label;
-                const iconSrc =
-                  typeof tool === "string" ? undefined : tool.iconSrc;
-                return (
-                  <li>
-                    <span class="toolitem">
-                      {iconSrc ? (
-                        <img
-                          class="toolicon"
-                          src={iconSrc}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      <span>{label}</span>
-                    </span>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </div>
-        <div class="toolcol">
-          <div class="tooltitle">/Databases</div>
-          <ul>
-            {
-              profile.tools.databases.map((t) => {
-                const tool = t as any;
-                const label = typeof tool === "string" ? tool : tool.label;
-                const iconSrc =
-                  typeof tool === "string" ? undefined : tool.iconSrc;
-                return (
-                  <li>
-                    <span class="toolitem">
-                      {iconSrc ? (
-                        <img
-                          class="toolicon"
-                          src={iconSrc}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      <span>{label}</span>
-                    </span>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </div>
-        <div class="toolcol">
-          <div class="tooltitle">/infrastructure</div>
-          <ul>
-            {
-              profile.tools.infrastructure.map((t) => {
-                const tool = t as any;
-                const label = typeof tool === "string" ? tool : tool.label;
-                const iconSrc =
-                  typeof tool === "string" ? undefined : tool.iconSrc;
-                return (
-                  <li>
-                    <span class="toolitem">
-                      {iconSrc ? (
-                        <img
-                          class="toolicon"
-                          src={iconSrc}
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                          aria-hidden="true"
-                        />
-                      ) : null}
-                      <span>{label}</span>
-                    </span>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </div>
+        {Object.entries(profile.tools).map(([cat, items]) => (
+          <div class="toolcol">
+            <div class="tooltitle">/{cat}</div>
+            <ul>
+              {items.map((t) => (
+                <li>
+                  <span class="toolitem">
+                    {t.iconSrc ? (
+                      <img class="toolicon" src={t.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+                    ) : null}
+                    <span>{t.label}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </Section>
 
+    <!-- ── Contact / Footer ── -->
     <div id="contact">
-      <Command
-        command="send_message --to:me"
-        variant="title"
-        showCursor={false}
-      />
+      <Command command="send_message --to:me" variant="title" showCursor={false} />
     </div>
     <div class="footer">
       <div class="footer-left" aria-hidden="true">⟵</div>
@@ -331,14 +207,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               target={l.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noreferrer"
             >
-              <img
-                class="footer-icon"
-                src={l.iconSrc}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                aria-hidden="true"
-              />
+              <img class="footer-icon" src={l.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
               <span>{l.label}</span>
             </a>
           ))
@@ -349,75 +218,58 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
       </div>
     </div>
   </div>
+
+  <!-- ── Status Bar ── -->
   <div class="status-bar">
-    <div class="status-left">
+    <div class="flex gap-3">
       <span class="status-item mode">NORMAL</span>
       <span class="status-item file">portfolio.zsh</span>
       <span class="status-item branch">main</span>
     </div>
-    <div class="status-right">
-      <span class="status-item cpu">CPU: 12%</span>
-      <span class="status-item ram">RAM: 4.2GB</span>
-      <span id="terminal-time" class="status-item time">00:00:00</span>
+    <div class="flex gap-3">
+      <span class="status-item">CPU: 12%</span>
+      <span class="status-item">RAM: 4.2GB</span>
+      <span id="terminal-time" class="status-item tabular-nums">00:00:00</span>
     </div>
   </div>
 </div>
 
 <script>
+  // Clock
   function updateTime() {
-    const timeEl = document.getElementById("terminal-time");
-    if (timeEl) {
-      timeEl.textContent = new Date().toLocaleTimeString("en-US", {
-        hour12: false,
-      });
-    }
+    const el = document.getElementById("terminal-time");
+    if (el) el.textContent = new Date().toLocaleTimeString("en-US", { hour12: false });
   }
   setInterval(updateTime, 1000);
   updateTime();
 
-  // Carousel Logic
+  // Carousel
   function initCarousels() {
-    const mediaContainers = document.querySelectorAll(".project-media");
-
-    mediaContainers.forEach((container) => {
-      const images = JSON.parse(
-        container.getAttribute("data-project-images") || "[]"
-      );
+    document.querySelectorAll(".project-media").forEach((container) => {
+      const images = JSON.parse(container.getAttribute("data-project-images") || "[]");
       if (images.length <= 1) return;
 
       let currentIndex = 0;
       const imgEl = container.querySelector(".project-img") as HTMLImageElement;
-      const dots = container.querySelectorAll(".carousel-dots .dot");
+      const dots = container.querySelectorAll(".carousel-dots .cdot");
       const prevBtn = container.querySelector(".carousel-btn.prev");
       const nextBtn = container.querySelector(".carousel-btn.next");
 
       const updateCarousel = (index: number) => {
         currentIndex = (index + images.length) % images.length;
-
-        // Fade out
         imgEl.style.opacity = "0";
-
         setTimeout(() => {
           imgEl.src = images[currentIndex];
           imgEl.style.opacity = "1";
-
-          dots.forEach((dot, i) => {
-            if (i === currentIndex) dot.classList.add("active");
-            else dot.classList.remove("active");
-          });
+          dots.forEach((d, i) =>
+            i === currentIndex ? d.classList.add("active") : d.classList.remove("active")
+          );
         }, 150);
       };
 
-      prevBtn?.addEventListener("click", () =>
-        updateCarousel(currentIndex - 1)
-      );
-      nextBtn?.addEventListener("click", () =>
-        updateCarousel(currentIndex + 1)
-      );
-
-      dots.forEach((dot, i) => {
-        dot.addEventListener("click", () => updateCarousel(i));
-      });
+      prevBtn?.addEventListener("click", () => updateCarousel(currentIndex - 1));
+      nextBtn?.addEventListener("click", () => updateCarousel(currentIndex + 1));
+      dots.forEach((d, i) => d.addEventListener("click", () => updateCarousel(i)));
     });
   }
 
@@ -425,120 +277,73 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 </script>
 
 <style>
+  /* ── Window shell ── */
   .window {
-    border: 1px solid var(--surface-high);
-    background: linear-gradient(180deg, var(--surface-lowest), var(--bg));
+    border: 1px solid var(--color-surface-high);
+    background: linear-gradient(180deg, var(--color-surface-lowest), var(--color-bg));
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
-  .status-bar {
-    display: flex;
-    justify-content: space-between;
-    background: var(--surface-low);
-    border-top: 1px solid var(--surface-high);
-    padding: 2px 12px;
-    font-family: var(--font-code);
-    font-size: 11px;
-    color: var(--text-muted);
-    user-select: none;
-    z-index: 10;
-  }
-
-  .status-left,
-  .status-right {
-    display: flex;
-    gap: 12px;
-  }
-
-  .status-item {
-    display: flex;
-    align-items: center;
-  }
-
-  .status-item.mode {
-    background: var(--accent);
-    color: var(--bg);
-    padding: 0 6px;
-    font-weight: bold;
-  }
-
-  .status-item.branch {
-    color: var(--accent);
-  }
-
-  .status-item.time {
-    font-variant-numeric: tabular-nums;
-  }
-
+  /* ── Titlebar ── */
   .titlebar {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    height: 44px;
-    background: var(--surface-low);
-    border-bottom: 1px solid var(--surface-high);
-    padding: 0 calc(var(--grid) * 5);
+    height: 40px;
+    background: var(--color-surface-low);
+    border-bottom: 1px solid var(--color-surface-high);
+    padding: 0 16px;
+  }
+  @media (min-width: 520px) {
+    .titlebar { height: 44px; padding: 0 20px; }
   }
 
-  .controls {
-    display: inline-flex;
-    gap: calc(var(--grid) * 2);
-    align-items: center;
-  }
-
-  .controls .dot {
-    width: 12px;
-    height: 12px;
+  .dot {
+    width: 10px; height: 10px;
     border-radius: 999px;
-    border: 1px solid rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(0,0,0,0.35);
     display: inline-block;
   }
-  .dot-close {
-    background: #ff5f57;
-  }
-  .dot-min {
-    background: #febc2e;
-  }
-  .dot-max {
-    background: #28c840;
-  }
+  @media (min-width: 520px) { .dot { width: 12px; height: 12px; } }
+  .dot-close { background: #ff5f57; }
+  .dot-min   { background: #febc2e; }
+  .dot-max   { background: #28c840; }
 
   .title {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1;
-    color: var(--text-muted);
-    letter-spacing: 0.02em;
-    user-select: none;
+    font-size: 12px; font-weight: 500; line-height: 1;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em; user-select: none;
   }
 
-  .spacer {
-    justify-self: end;
-  }
+  /* ── Content ── */
+  .content { padding: 12px; }
+  @media (min-width: 520px) { .content { padding: 24px; } }
 
-  .content {
-    padding: calc(var(--grid) * 6);
-  }
-
+  /* ── ASCII art ── */
   .ascii {
-    margin: 0 0 calc(var(--grid) * 4) 0;
+    margin: 0 0 16px 0;
+    font-family: var(--font-code);
+    font-size: 10px; line-height: 1.15;
+    color: var(--color-accent-strong);
+    white-space: pre; display: block;
+    max-width: 100%; overflow-x: auto;
+    padding-bottom: 8px; position: relative;
+  }
+  @media (min-width: 520px) { .ascii { font-size: 12px; line-height: 1.2; } }
+  .glitch-text:hover { color: var(--color-accent); }
+
+  /* ── Boot system lines ── */
+  .system {
+    margin-bottom: 24px;
+    color: var(--color-text-muted);
     font-family: var(--font-code);
     font-size: 12px;
-    line-height: 1.2;
-    color: var(--accent-strong);
-    white-space: pre;
-    display: block;
-    max-width: 100%;
-    overflow-x: auto;
-    padding-bottom: calc(var(--grid) * 2);
-    position: relative;
   }
+  @media (min-width: 520px) { .system { font-size: 13px; } }
 
-  .glitch-text:hover {
-    color: var(--accent);
-  }
+  .line { margin: 4px 0; }
 
   .boot-line {
     opacity: 0;
@@ -547,452 +352,228 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     animation-delay: var(--delay);
   }
 
-  @keyframes bootIn {
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  .system {
-    margin-bottom: calc(var(--grid) * 6);
-    color: var(--text-muted);
-    font-family: var(--font-code);
-    font-size: 13px;
-  }
-
-  .separator {
-    height: 1px;
-    margin: calc(var(--grid) * 3) 0 calc(var(--grid) * 5) 0;
-    background: linear-gradient(
-      90deg,
-      rgba(129, 230, 217, 0),
-      rgba(129, 230, 217, 0.35),
-      rgba(129, 230, 217, 0)
-    );
-  }
-
-  .system .line {
-    margin: calc(var(--grid) * 1) 0;
-  }
-
-  .tag {
-    color: rgba(129, 230, 217, 0.8);
-  }
+  .tag { color: rgba(129, 230, 217, 0.8); }
 
   .system-link {
-    color: var(--accent-strong);
+    color: var(--color-accent-strong);
     text-decoration: none;
-    border-bottom: 1px dashed var(--accent-strong);
+    border-bottom: 1px dashed var(--color-accent-strong);
     transition: all 0.2s ease;
   }
-
   .system-link:hover {
-    color: var(--accent);
+    color: var(--color-accent);
     border-bottom-style: solid;
     background: rgba(129, 230, 217, 0.1);
   }
 
-  .paragraphs p {
-    margin: 0;
-    font-size: 14px;
-    line-height: 1.75;
-    font-family: var(--font-ui);
+  /* ── Separator ── */
+  .separator {
+    height: 1px;
+    margin: 12px 0 20px 0;
+    background: linear-gradient(90deg,
+      rgba(129,230,217,0), rgba(129,230,217,0.35), rgba(129,230,217,0));
   }
 
-  .spacer-row {
-    height: calc(var(--grid) * 3);
-  }
+  /* ── Bio paragraphs ── */
+  .paragraphs p { margin: 0; font-size: 14px; line-height: 1.75; font-family: var(--font-ui); }
+  .spacer-row { height: 12px; }
 
-  :global(.highlight) {
-    color: var(--accent-strong);
-    font-weight: 500;
-  }
-
-  .experience {
-    display: grid;
-    gap: calc(var(--grid) * 5);
-  }
+  /* ── Experience ── */
+  .experience { display: grid; gap: 20px; }
 
   .exp-head {
     display: flex;
-    flex-wrap: wrap;
-    gap: calc(var(--grid) * 2);
-    align-items: baseline;
+    flex-direction: column;
+    gap: 4px;
+    align-items: flex-start;
     font-family: var(--font-code);
   }
-
-  .range {
-    color: var(--text);
+  @media (min-width: 600px) {
+    .exp-head { flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: baseline; }
   }
 
-  .role {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .company {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  .sep {
-    color: var(--accent);
-  }
+  .range   { color: var(--color-text); }
+  .role    { color: var(--color-accent); font-weight: 500; }
+  .company { color: var(--color-accent); font-weight: 500; }
+  .exp-sep { color: var(--color-accent); }
+  @media (max-width: 599px) { .exp-sep { display: none; } }
 
   .exp-bullets {
-    margin: calc(var(--grid) * 2) 0 0 0;
-    padding-left: calc(var(--grid) * 6);
-    color: var(--text-muted);
+    margin: 8px 0 0 0;
+    padding-left: 16px;
+    color: var(--color-text-muted);
     font-size: 14px;
   }
+  @media (min-width: 520px) { .exp-bullets { padding-left: 24px; } }
+  .exp-bullets li { margin: 4px 0; white-space: pre-line; }
 
-  .exp-bullets li {
-    margin: calc(var(--grid) * 1) 0;
-    white-space: pre-line;
-  }
-
+  /* ── Projects grid ── */
   .projects {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: calc(var(--grid) * 6);
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
-
-  @media (max-width: 900px) {
-    .projects {
-      grid-template-columns: 1fr;
-    }
+  @media (min-width: 900px) {
+    .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
 
   .project {
-    background: rgba(28, 27, 27, 0.75);
-    border: 1px solid var(--surface-high);
-    padding: calc(var(--grid) * 5);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    background: rgba(28,27,27,0.75);
+    border: 1px solid var(--color-surface-high);
+    padding: 12px;
+    display: flex; flex-direction: column; height: 100%;
     transition: all 0.3s ease;
   }
+  @media (min-width: 520px) { .project { padding: 20px; } }
+  .project:hover {
+    border-color: rgba(129,230,217,0.5);
+    background: rgba(28,27,27,0.9);
+  }
 
+  /* ── Carousel ── */
   .project-media {
-    border: 1px solid var(--surface-highest);
-    background: rgba(14, 14, 14, 0.55);
-    margin: 0 0 calc(var(--grid) * 4) 0;
-    overflow: hidden;
-    position: relative;
-    z-index: 10000;
+    border: 1px solid var(--color-surface-highest);
+    background: rgba(14,14,14,0.55);
+    margin: 0 0 16px 0;
+    overflow: hidden; position: relative; z-index: 1;
   }
 
   .carousel-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 280px; /* Increased further for impact */
+    position: relative; display: flex;
+    justify-content: center; align-items: center;
+    width: 100%; height: 200px;
   }
+  @media (min-width: 520px) { .carousel-container { height: 280px; } }
 
   .project-img {
-    display: block;
-    width: 80%;
-    height: 80%;
-    object-fit: cover;
-    transition: opacity 0.3s ease-in-out;
+    display: block; width: 80%; height: 80%;
+    object-fit: cover; transition: opacity 0.3s ease-in-out;
   }
+  @media (max-width: 519px) { .project-img { width: 80%; height: 70%; } }
 
-  .project-media.is-mobile .carousel-container {
-    height: 280px;
-  }
-
+  .project-media.is-mobile .carousel-container { height: 240px; }
+  @media (min-width: 520px) { .project-media.is-mobile .carousel-container { height: 280px; } }
   .project-media.is-mobile .project-img {
-    width: 90%;
-    height: 90%;
-    object-fit: contain;
+    width: 100%; height: 100%; object-fit: contain; padding: 8px;
   }
 
   .carousel-controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    padding: calc(var(--grid) * 2);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.2s ease;
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 8px;
+    display: flex; justify-content: space-between; align-items: center;
+    opacity: 0; transition: opacity 0.2s ease;
   }
-
-  .project-media:hover .carousel-controls {
-    opacity: 1;
-  }
+  .project-media:hover .carousel-controls { opacity: 1; }
 
   .carousel-btn {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 0;
-  }
-
-  .carousel-btn:hover {
-    background: var(--accent);
-    color: var(--bg);
-  }
-
-  .carousel-dots {
-    display: flex;
-    gap: 6px;
-  }
-
-  .carousel-dots .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(129, 230, 217, 0.3);
-    cursor: pointer;
+    background: rgba(0,0,0,0.5);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 18px; line-height: 1; padding: 0;
     transition: background 0.2s ease;
   }
+  .carousel-btn:hover { background: var(--color-accent); color: var(--color-bg); }
 
-  .carousel-dots .dot.active {
-    background: var(--accent);
-    box-shadow: 0 0 5px var(--accent);
+  .carousel-dots { display: flex; gap: 6px; }
+  .cdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(129,230,217,0.3);
+    cursor: pointer; transition: background 0.2s ease;
   }
+  .cdot.active { background: var(--color-accent); box-shadow: 0 0 5px var(--color-accent); }
 
-  .project:hover {
-    border-color: rgba(129, 230, 217, 0.5);
-    background: rgba(28, 27, 27, 0.9);
-  }
+  /* ── Project info ── */
+  .project-name { font-weight: 700; font-size: 14px; line-height: 1.4; font-family: var(--font-ui); }
+  .project-sub  { color: var(--color-text-muted); font-size: 12px; margin-top: 4px; }
+  .project-desc { margin-top: 12px; color: var(--color-text-muted); font-size: 14px; flex-grow: 1; }
+  .project-tech { margin-top: 12px; font-family: var(--font-code); font-size: 12px; color: var(--color-text-muted); }
+  .label        { color: rgba(129,230,217,0.85); }
 
-  .project-name {
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 1.4;
-    font-family: var(--font-ui);
-  }
-
-  .project-sub {
-    color: var(--text-muted);
-    font-size: 12px;
-    margin-top: calc(var(--grid) * 1);
-  }
-
-  .project-desc {
-    margin-top: calc(var(--grid) * 3);
-    color: var(--text-muted);
-    font-size: 14px;
-    flex-grow: 1;
-  }
-
-  .project-tech {
-    margin-top: calc(var(--grid) * 3);
-    font-family: var(--font-code);
-    font-size: 12px;
-    color: var(--text-muted);
-  }
-
-  .label {
-    color: rgba(129, 230, 217, 0.85);
-  }
-
-  .tech-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 8px;
-  }
-
+  .tech-list  { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   .tech-badge {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(129, 230, 217, 0.05);
-    border: 1px solid rgba(129, 230, 217, 0.15);
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 11px;
-    color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(129,230,217,0.05);
+    border: 1px solid rgba(129,230,217,0.15);
+    padding: 4px 8px; border-radius: 4px;
+    font-size: 11px; color: var(--color-text-muted);
     transition: all 0.2s ease;
   }
+  .tech-badge:hover { background: rgba(129,230,217,0.1); border-color: var(--color-accent); color: var(--color-text); }
+  .tech-icon { width: 14px; height: 14px; object-fit: contain; }
 
-  .tech-badge:hover {
-    background: rgba(129, 230, 217, 0.1);
-    border-color: var(--accent);
-    color: var(--text);
-  }
-
-  .tech-icon {
-    width: 14px;
-    height: 14px;
-    object-fit: contain;
-  }
-
-  .actions {
-    display: flex;
-    gap: calc(var(--grid) * 3);
-    margin-top: calc(var(--grid) * 4);
-    flex-wrap: wrap;
-  }
-
+  .actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--grid) * 2);
-    padding: calc(var(--grid) * 2) calc(var(--grid) * 3);
-    font-size: 12px;
-    font-family: var(--font-code);
-    border: 1px solid transparent;
-    user-select: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 12px; font-size: 12px;
+    font-family: var(--font-code); border: 1px solid transparent; user-select: none;
   }
+  .btn-primary { background: var(--color-accent); color: #0e0e0e; border-color: rgba(0,0,0,0.25); }
+  .btn-ghost   { background: transparent; color: var(--color-text); border-color: rgba(229,226,225,0.7); }
+  .btn:hover .cursorish { opacity: 1; }
+  .cursorish { opacity: 0; transition: opacity 140ms ease; }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #0e0e0e;
-    border-color: rgba(0, 0, 0, 0.25);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border-color: rgba(229, 226, 225, 0.7);
-  }
-
-  .btn:hover .cursorish {
-    opacity: 1;
-  }
-
-  .cursorish {
-    opacity: 0;
-    transition: opacity 140ms ease;
-  }
-
+  /* ── Tools grid ── */
   .tools {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: calc(var(--grid) * 6);
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
-
-  @media (max-width: 900px) {
-    .tools {
-      grid-template-columns: 1fr;
-    }
+  @media (min-width: 900px) {
+    .tools { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   }
 
   .tooltitle {
-    font-family: var(--font-code);
-    font-size: 12px;
-    color: rgba(129, 230, 217, 0.85);
-    margin-bottom: calc(var(--grid) * 2);
+    font-family: var(--font-code); font-size: 12px;
+    color: rgba(129,230,217,0.85); margin-bottom: 8px;
   }
+  .toolcol ul { margin: 0; padding-left: 20px; color: var(--color-text-muted); font-size: 14px; }
+  .toolcol li { margin: 4px 0; }
+  .toolitem { display: inline-flex; align-items: center; gap: 8px; }
+  .toolicon  { width: 14px; height: 14px; opacity: 0.9; flex: 0 0 auto; }
 
-  .toolcol ul {
-    margin: 0;
-    padding-left: calc(var(--grid) * 5);
-    color: var(--text-muted);
-    font-size: 14px;
-  }
-
-  .toolcol li {
-    margin: calc(var(--grid) * 1) 0;
-  }
-
-  .toolitem {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--grid) * 2);
-  }
-
-  .toolicon {
-    width: 14px;
-    height: 14px;
-    opacity: 0.9;
-    flex: 0 0 auto;
-  }
-
+  /* ── Footer ── */
   .footer {
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: calc(var(--grid) * 4);
-    margin-top: calc(var(--grid) * 7);
-    padding-top: calc(var(--grid) * 4);
-    border-top: 1px solid var(--surface-high);
-    color: var(--text-muted);
-    font-family: var(--font-code);
-    font-size: 12px;
+    grid-template-columns: 1fr;
+    justify-items: center; text-align: center;
+    gap: 16px;
+    margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid var(--color-surface-high);
+    color: var(--color-text-muted); font-family: var(--font-code); font-size: 12px;
   }
-
-  .footer-links {
-    display: inline-flex;
-    gap: calc(var(--grid) * 4);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .footer-link {
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--grid) * 2);
-    padding: calc(var(--grid) * 1) calc(var(--grid) * 2);
-    border: 1px solid transparent;
-  }
-
-  .footer-icon {
-    width: 14px;
-    height: 14px;
-    opacity: 0.9;
-  }
-
-  .footer-link:hover {
-    border-color: rgba(129, 230, 217, 0.35);
-    color: var(--text);
-  }
-
-  @media (max-width: 520px) {
-    .titlebar {
-      height: 40px;
-      padding: 0 calc(var(--grid) * 4);
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-    }
-
-    .content {
-      padding: calc(var(--grid) * 4);
-    }
-
-    .ascii {
-      font-size: 10px;
-      line-height: 1.15;
-    }
-
-    .system {
-      font-size: 12px;
-    }
-
-    .project {
-      padding: calc(var(--grid) * 4);
-    }
-
+  @media (min-width: 520px) {
     .footer {
-      grid-template-columns: 1fr;
-      justify-items: center;
-      text-align: center;
-    }
-
-    .footer-left,
-    .footer-cursor {
-      display: none;
+      grid-template-columns: auto 1fr auto;
+      justify-items: start; text-align: left;
+      margin-top: 28px; padding-top: 16px;
     }
   }
+
+  .footer-left, .footer-cursor { display: none; }
+  @media (min-width: 520px) { .footer-left, .footer-cursor { display: block; } }
+
+  .footer-links { display: inline-flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .footer-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 4px 8px; border: 1px solid transparent;
+  }
+  .footer-link:hover { border-color: rgba(129,230,217,0.35); color: var(--color-text); }
+  .footer-icon { width: 14px; height: 14px; opacity: 0.9; }
+
+  /* ── Status bar ── */
+  .status-bar {
+    display: flex; justify-content: space-between;
+    background: var(--color-surface-low);
+    border-top: 1px solid var(--color-surface-high);
+    padding: 2px 12px;
+    font-family: var(--font-code); font-size: 11px;
+    color: var(--color-text-muted); user-select: none; z-index: 10;
+  }
+  .status-item { display: flex; align-items: center; }
+  .status-item.mode   { background: var(--color-accent); color: var(--color-bg); padding: 0 6px; font-weight: bold; }
+  .status-item.branch { color: var(--color-accent); }
+  .status-item.file   {}
 </style>

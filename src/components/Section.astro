@@ -12,20 +12,16 @@ const { tone = "normal" } = Astro.props;
 
 <style>
   .section {
-    margin-top: calc(var(--grid) * 4);
-    padding-left: calc(var(--grid) * 4);
+    margin-top: 16px;
+    padding-left: 12px;
     border-left: 2px solid rgba(129, 230, 217, 0.5);
   }
 
-  .tone-normal {
-    color: var(--text);
+  @media (min-width: 520px) {
+    .section { padding-left: 16px; }
   }
 
-  .tone-muted {
-    color: var(--text-muted);
-  }
-
-  .tone-accent {
-    color: var(--accent-strong);
-  }
+  .tone-normal { color: var(--color-text); }
+  .tone-muted  { color: var(--color-text-muted); }
+  .tone-accent { color: var(--color-accent-strong); }
 </style>

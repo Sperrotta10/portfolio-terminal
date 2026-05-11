@@ -13,21 +13,10 @@ const char = variant === "underscore" ? "_" : variant === "bar" ? "|" : "█";
 <style>
   .cursor {
     display: inline-block;
-    color: var(--accent);
+    color: var(--color-accent);
     font-family: var(--font-code);
     line-height: 1;
     transform: translateY(1px);
     animation: blink 1.1s steps(1, end) infinite;
-  }
-
-  @keyframes blink {
-    0%,
-    49% {
-      opacity: 1;
-    }
-    50%,
-    100% {
-      opacity: 0;
-    }
   }
 </style>
