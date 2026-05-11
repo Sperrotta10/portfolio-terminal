@@ -29,7 +29,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     <pre
       class="ascii glitch-text"
       aria-label="ASCII header"
-      data-text={profile.titleAscii.join("\n")}>{profile.titleAscii.join("\n")}</pre>
+      data-text={profile.titleAscii.join(
+        "\n",
+      )}>{profile.titleAscii.join("\n")}</pre>
 
     <!-- Boot lines -->
     <div class="system">
@@ -116,7 +118,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
                     />
                     {p.images.length > 1 && (
                       <div class="carousel-controls">
-                        <button class="carousel-btn prev" aria-label="Anterior">‹</button>
+                        <button class="carousel-btn prev" aria-label="Anterior">
+                          ‹
+                        </button>
                         <div class="carousel-dots">
                           {p.images.map((_, i) => (
                             <span
@@ -125,7 +129,12 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
                             />
                           ))}
                         </div>
-                        <button class="carousel-btn next" aria-label="Siguiente">›</button>
+                        <button
+                          class="carousel-btn next"
+                          aria-label="Siguiente"
+                        >
+                          ›
+                        </button>
                       </div>
                     )}
                   </div>
@@ -150,14 +159,38 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
                 </div>
               </div>
               <div class="actions">
-                {p.hrefLive ? (
-                  <a class="btn btn-primary" href={p.hrefLive} target="_blank" rel="noreferrer">
-                    Live Demo<span class="cursorish" aria-hidden="true">_</span>
+                {p.slug ? (
+                  <a class="btn btn-ghost" href={`/projects/${p.slug}`}>
+                    Documentation
+                    <span class="cursorish" aria-hidden="true">
+                      _
+                    </span>
                   </a>
                 ) : null}
-                {p.hrefSource ? (
-                  <a class="btn btn-ghost" href={p.hrefSource} target="_blank" rel="noreferrer">
-                    Source Code<span class="cursorish" aria-hidden="true">_</span>
+                {p.hrefLive && p.hrefLive !== "#" ? (
+                  <a
+                    class="btn btn-primary"
+                    href={p.hrefLive}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Live Demo
+                    <span class="cursorish" aria-hidden="true">
+                      _
+                    </span>
+                  </a>
+                ) : null}
+                {p.hrefSource && p.hrefSource !== "#" ? (
+                  <a
+                    class="btn btn-ghost"
+                    href={p.hrefSource}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Source Code
+                    <span class="cursorish" aria-hidden="true">
+                      _
+                    </span>
                   </a>
                 ) : null}
               </div>
@@ -172,29 +205,42 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     <Command command="tools --list" variant="title" />
     <Section>
       <div class="tools">
-        {Object.entries(profile.tools).map(([cat, items]) => (
-          <div class="toolcol">
-            <div class="tooltitle">/{cat}</div>
-            <ul>
-              {items.map((t) => (
-                <li>
-                  <span class="toolitem">
-                    {t.iconSrc ? (
-                      <img class="toolicon" src={t.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
-                    ) : null}
-                    <span>{t.label}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
+        {
+          Object.entries(profile.tools).map(([cat, items]) => (
+            <div class="toolcol">
+              <div class="tooltitle">/{cat}</div>
+              <ul>
+                {items.map((t) => (
+                  <li>
+                    <span class="toolitem">
+                      {t.iconSrc ? (
+                        <img
+                          class="toolicon"
+                          src={t.iconSrc}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                          aria-hidden="true"
+                        />
+                      ) : null}
+                      <span>{t.label}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
       </div>
     </Section>
 
     <!-- ── Contact / Footer ── -->
     <div id="contact">
-      <Command command="send_message --to:me" variant="title" showCursor={false} />
+      <Command
+        command="send_message --to:me"
+        variant="title"
+        showCursor={false}
+      />
     </div>
     <div class="footer">
       <div class="footer-left" aria-hidden="true">⟵</div>
@@ -207,7 +253,14 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
               target={l.href.startsWith("mailto:") ? undefined : "_blank"}
               rel="noreferrer"
             >
-              <img class="footer-icon" src={l.iconSrc} alt="" loading="lazy" decoding="async" aria-hidden="true" />
+              <img
+                class="footer-icon"
+                src={l.iconSrc}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
               <span>{l.label}</span>
             </a>
           ))
@@ -238,7 +291,10 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   // Clock
   function updateTime() {
     const el = document.getElementById("terminal-time");
-    if (el) el.textContent = new Date().toLocaleTimeString("en-US", { hour12: false });
+    if (el)
+      el.textContent = new Date().toLocaleTimeString("en-US", {
+        hour12: false,
+      });
   }
   setInterval(updateTime, 1000);
   updateTime();
@@ -246,7 +302,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   // Carousel
   function initCarousels() {
     document.querySelectorAll(".project-media").forEach((container) => {
-      const images = JSON.parse(container.getAttribute("data-project-images") || "[]");
+      const images = JSON.parse(
+        container.getAttribute("data-project-images") || "[]",
+      );
       if (images.length <= 1) return;
 
       let currentIndex = 0;
@@ -262,14 +320,22 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
           imgEl.src = images[currentIndex];
           imgEl.style.opacity = "1";
           dots.forEach((d, i) =>
-            i === currentIndex ? d.classList.add("active") : d.classList.remove("active")
+            i === currentIndex
+              ? d.classList.add("active")
+              : d.classList.remove("active"),
           );
         }, 150);
       };
 
-      prevBtn?.addEventListener("click", () => updateCarousel(currentIndex - 1));
-      nextBtn?.addEventListener("click", () => updateCarousel(currentIndex + 1));
-      dots.forEach((d, i) => d.addEventListener("click", () => updateCarousel(i)));
+      prevBtn?.addEventListener("click", () =>
+        updateCarousel(currentIndex - 1),
+      );
+      nextBtn?.addEventListener("click", () =>
+        updateCarousel(currentIndex + 1),
+      );
+      dots.forEach((d, i) =>
+        d.addEventListener("click", () => updateCarousel(i)),
+      );
     });
   }
 
@@ -280,7 +346,11 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   /* ── Window shell ── */
   .window {
     border: 1px solid var(--color-surface-high);
-    background: linear-gradient(180deg, var(--color-surface-lowest), var(--color-bg));
+    background: linear-gradient(
+      180deg,
+      var(--color-surface-lowest),
+      var(--color-bg)
+    );
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -297,42 +367,77 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     padding: 0 16px;
   }
   @media (min-width: 520px) {
-    .titlebar { height: 44px; padding: 0 20px; }
+    .titlebar {
+      height: 44px;
+      padding: 0 20px;
+    }
   }
 
   .dot {
-    width: 10px; height: 10px;
+    width: 10px;
+    height: 10px;
     border-radius: 999px;
-    border: 1px solid rgba(0,0,0,0.35);
+    border: 1px solid rgba(0, 0, 0, 0.35);
     display: inline-block;
   }
-  @media (min-width: 520px) { .dot { width: 12px; height: 12px; } }
-  .dot-close { background: #ff5f57; }
-  .dot-min   { background: #febc2e; }
-  .dot-max   { background: #28c840; }
+  @media (min-width: 520px) {
+    .dot {
+      width: 12px;
+      height: 12px;
+    }
+  }
+  .dot-close {
+    background: #ff5f57;
+  }
+  .dot-min {
+    background: #febc2e;
+  }
+  .dot-max {
+    background: #28c840;
+  }
 
   .title {
-    font-size: 12px; font-weight: 500; line-height: 1;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
     color: var(--color-text-muted);
-    letter-spacing: 0.02em; user-select: none;
+    letter-spacing: 0.02em;
+    user-select: none;
   }
 
   /* ── Content ── */
-  .content { padding: 12px; }
-  @media (min-width: 520px) { .content { padding: 24px; } }
+  .content {
+    padding: 12px;
+  }
+  @media (min-width: 520px) {
+    .content {
+      padding: 24px;
+    }
+  }
 
   /* ── ASCII art ── */
   .ascii {
     margin: 0 0 16px 0;
     font-family: var(--font-code);
-    font-size: 10px; line-height: 1.15;
+    font-size: 10px;
+    line-height: 1.15;
     color: var(--color-accent-strong);
-    white-space: pre; display: block;
-    max-width: 100%; overflow-x: auto;
-    padding-bottom: 8px; position: relative;
+    white-space: pre;
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    position: relative;
   }
-  @media (min-width: 520px) { .ascii { font-size: 12px; line-height: 1.2; } }
-  .glitch-text:hover { color: var(--color-accent); }
+  @media (min-width: 520px) {
+    .ascii {
+      font-size: 12px;
+      line-height: 1.2;
+    }
+  }
+  .glitch-text:hover {
+    color: var(--color-accent);
+  }
 
   /* ── Boot system lines ── */
   .system {
@@ -341,9 +446,15 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     font-family: var(--font-code);
     font-size: 12px;
   }
-  @media (min-width: 520px) { .system { font-size: 13px; } }
+  @media (min-width: 520px) {
+    .system {
+      font-size: 13px;
+    }
+  }
 
-  .line { margin: 4px 0; }
+  .line {
+    margin: 4px 0;
+  }
 
   .boot-line {
     opacity: 0;
@@ -352,7 +463,9 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     animation-delay: var(--delay);
   }
 
-  .tag { color: rgba(129, 230, 217, 0.8); }
+  .tag {
+    color: rgba(129, 230, 217, 0.8);
+  }
 
   .system-link {
     color: var(--color-accent-strong);
@@ -370,16 +483,30 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   .separator {
     height: 1px;
     margin: 12px 0 20px 0;
-    background: linear-gradient(90deg,
-      rgba(129,230,217,0), rgba(129,230,217,0.35), rgba(129,230,217,0));
+    background: linear-gradient(
+      90deg,
+      rgba(129, 230, 217, 0),
+      rgba(129, 230, 217, 0.35),
+      rgba(129, 230, 217, 0)
+    );
   }
 
   /* ── Bio paragraphs ── */
-  .paragraphs p { margin: 0; font-size: 14px; line-height: 1.75; font-family: var(--font-ui); }
-  .spacer-row { height: 12px; }
+  .paragraphs p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.75;
+    font-family: var(--font-ui);
+  }
+  .spacer-row {
+    height: 12px;
+  }
 
   /* ── Experience ── */
-  .experience { display: grid; gap: 20px; }
+  .experience {
+    display: grid;
+    gap: 20px;
+  }
 
   .exp-head {
     display: flex;
@@ -389,14 +516,33 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     font-family: var(--font-code);
   }
   @media (min-width: 600px) {
-    .exp-head { flex-direction: row; flex-wrap: wrap; gap: 8px; align-items: baseline; }
+    .exp-head {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: baseline;
+    }
   }
 
-  .range   { color: var(--color-text); }
-  .role    { color: var(--color-accent); font-weight: 500; }
-  .company { color: var(--color-accent); font-weight: 500; }
-  .exp-sep { color: var(--color-accent); }
-  @media (max-width: 599px) { .exp-sep { display: none; } }
+  .range {
+    color: var(--color-text);
+  }
+  .role {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+  .company {
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+  .exp-sep {
+    color: var(--color-accent);
+  }
+  @media (max-width: 599px) {
+    .exp-sep {
+      display: none;
+    }
+  }
 
   .exp-bullets {
     margin: 8px 0 0 0;
@@ -404,8 +550,15 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     color: var(--color-text-muted);
     font-size: 14px;
   }
-  @media (min-width: 520px) { .exp-bullets { padding-left: 24px; } }
-  .exp-bullets li { margin: 4px 0; white-space: pre-line; }
+  @media (min-width: 520px) {
+    .exp-bullets {
+      padding-left: 24px;
+    }
+  }
+  .exp-bullets li {
+    margin: 4px 0;
+    white-space: pre-line;
+  }
 
   /* ── Projects grid ── */
   .projects {
@@ -414,106 +567,227 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     gap: 24px;
   }
   @media (min-width: 900px) {
-    .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .projects {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .project {
-    background: rgba(28,27,27,0.75);
+    background: rgba(28, 27, 27, 0.75);
     border: 1px solid var(--color-surface-high);
     padding: 12px;
-    display: flex; flex-direction: column; height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     transition: all 0.3s ease;
   }
-  @media (min-width: 520px) { .project { padding: 20px; } }
+  @media (min-width: 520px) {
+    .project {
+      padding: 20px;
+    }
+  }
   .project:hover {
-    border-color: rgba(129,230,217,0.5);
-    background: rgba(28,27,27,0.9);
+    border-color: rgba(129, 230, 217, 0.5);
+    background: rgba(28, 27, 27, 0.9);
   }
 
   /* ── Carousel ── */
   .project-media {
     border: 1px solid var(--color-surface-highest);
-    background: rgba(14,14,14,0.55);
+    background: rgba(14, 14, 14, 0.55);
     margin: 0 0 16px 0;
-    overflow: hidden; position: relative; z-index: 10000;
+    overflow: hidden;
+    position: relative;
+    z-index: 10000;
   }
 
   .carousel-container {
-    position: relative; display: flex;
-    justify-content: center; align-items: center;
-    width: 100%; height: 200px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 200px;
   }
-  @media (min-width: 520px) { .carousel-container { height: 280px; } }
+  @media (min-width: 520px) {
+    .carousel-container {
+      height: 280px;
+    }
+  }
 
   .project-img {
-    display: block; width: 80%; height: 80%;
-    object-fit: cover; transition: opacity 0.3s ease-in-out;
+    display: block;
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    transition: opacity 0.3s ease-in-out;
   }
-  @media (max-width: 519px) { .project-img { width: 80%; height: 70%; } }
+  @media (max-width: 519px) {
+    .project-img {
+      width: 80%;
+      height: 70%;
+    }
+  }
 
-  .project-media.is-mobile .carousel-container { height: 240px; }
-  @media (min-width: 520px) { .project-media.is-mobile .carousel-container { height: 280px; } }
+  .project-media.is-mobile .carousel-container {
+    height: 240px;
+  }
+  @media (min-width: 520px) {
+    .project-media.is-mobile .carousel-container {
+      height: 280px;
+    }
+  }
   .project-media.is-mobile .project-img {
-    width: 100%; height: 100%; object-fit: contain; padding: 8px;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
   }
 
   .carousel-controls {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
     padding: 8px;
-    display: flex; justify-content: space-between; align-items: center;
-    opacity: 0; transition: opacity 0.2s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
-  .project-media:hover .carousel-controls { opacity: 1; }
+  .project-media:hover .carousel-controls {
+    opacity: 1;
+  }
 
   .carousel-btn {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: var(--color-accent);
     border: 1px solid var(--color-accent);
-    width: 24px; height: 24px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 18px; line-height: 1; padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
     transition: background 0.2s ease;
   }
-  .carousel-btn:hover { background: var(--color-accent); color: var(--color-bg); }
-
-  .carousel-dots { display: flex; gap: 6px; }
-  .cdot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: rgba(129,230,217,0.3);
-    cursor: pointer; transition: background 0.2s ease;
+  .carousel-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
   }
-  .cdot.active { background: var(--color-accent); box-shadow: 0 0 5px var(--color-accent); }
+
+  .carousel-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .cdot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(129, 230, 217, 0.3);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .cdot.active {
+    background: var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent);
+  }
 
   /* ── Project info ── */
-  .project-name { font-weight: 700; font-size: 14px; line-height: 1.4; font-family: var(--font-ui); }
-  .project-sub  { color: var(--color-text-muted); font-size: 12px; margin-top: 4px; }
-  .project-desc { margin-top: 12px; color: var(--color-text-muted); font-size: 14px; flex-grow: 1; }
-  .project-tech { margin-top: 12px; font-family: var(--font-code); font-size: 12px; color: var(--color-text-muted); }
-  .label        { color: rgba(129,230,217,0.85); }
+  .project-name {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+    font-family: var(--font-ui);
+  }
+  .project-sub {
+    color: var(--color-text-muted);
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  .project-desc {
+    margin-top: 12px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+    flex-grow: 1;
+  }
+  .project-tech {
+    margin-top: 12px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: var(--color-text-muted);
+  }
+  .label {
+    color: rgba(129, 230, 217, 0.85);
+  }
 
-  .tech-list  { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
   .tech-badge {
-    display: flex; align-items: center; gap: 6px;
-    background: rgba(129,230,217,0.05);
-    border: 1px solid rgba(129,230,217,0.15);
-    padding: 4px 8px; border-radius: 4px;
-    font-size: 11px; color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(129, 230, 217, 0.05);
+    border: 1px solid rgba(129, 230, 217, 0.15);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--color-text-muted);
     transition: all 0.2s ease;
   }
-  .tech-badge:hover { background: rgba(129,230,217,0.1); border-color: var(--color-accent); color: var(--color-text); }
-  .tech-icon { width: 14px; height: 14px; object-fit: contain; }
-
-  .actions { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 12px; font-size: 12px;
-    font-family: var(--font-code); border: 1px solid transparent; user-select: none;
+  .tech-badge:hover {
+    background: rgba(129, 230, 217, 0.1);
+    border-color: var(--color-accent);
+    color: var(--color-text);
   }
-  .btn-primary { background: var(--color-accent); color: #0e0e0e; border-color: rgba(0,0,0,0.25); }
-  .btn-ghost   { background: transparent; color: var(--color-text); border-color: rgba(229,226,225,0.7); }
-  .btn:hover .cursorish { opacity: 1; }
-  .cursorish { opacity: 0; transition: opacity 140ms ease; }
+  .tech-icon {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: var(--font-code);
+    border: 1px solid transparent;
+    user-select: none;
+  }
+  .btn-primary {
+    background: var(--color-accent);
+    color: #0e0e0e;
+    border-color: rgba(0, 0, 0, 0.25);
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-text);
+    border-color: rgba(229, 226, 225, 0.7);
+  }
+  .btn:hover .cursorish {
+    opacity: 1;
+  }
+  .cursorish {
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
 
   /* ── Tools grid ── */
   .tools {
@@ -522,58 +796,122 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
     gap: 24px;
   }
   @media (min-width: 900px) {
-    .tools { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .tools {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
   }
 
   .tooltitle {
-    font-family: var(--font-code); font-size: 12px;
-    color: rgba(129,230,217,0.85); margin-bottom: 8px;
+    font-family: var(--font-code);
+    font-size: 12px;
+    color: rgba(129, 230, 217, 0.85);
+    margin-bottom: 8px;
   }
-  .toolcol ul { margin: 0; padding-left: 20px; color: var(--color-text-muted); font-size: 14px; }
-  .toolcol li { margin: 4px 0; }
-  .toolitem { display: inline-flex; align-items: center; gap: 8px; }
-  .toolicon  { width: 14px; height: 14px; opacity: 0.9; flex: 0 0 auto; }
+  .toolcol ul {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+  }
+  .toolcol li {
+    margin: 4px 0;
+  }
+  .toolitem {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toolicon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.9;
+    flex: 0 0 auto;
+  }
 
   /* ── Footer ── */
   .footer {
     display: grid;
     grid-template-columns: 1fr;
-    justify-items: center; text-align: center;
+    justify-items: center;
+    text-align: center;
     gap: 16px;
-    margin-top: 16px; padding-top: 12px;
+    margin-top: 16px;
+    padding-top: 12px;
     border-top: 1px solid var(--color-surface-high);
-    color: var(--color-text-muted); font-family: var(--font-code); font-size: 12px;
+    color: var(--color-text-muted);
+    font-family: var(--font-code);
+    font-size: 12px;
   }
   @media (min-width: 520px) {
     .footer {
       grid-template-columns: auto 1fr auto;
-      justify-items: start; text-align: left;
-      margin-top: 28px; padding-top: 16px;
+      justify-items: start;
+      text-align: left;
+      margin-top: 28px;
+      padding-top: 16px;
     }
   }
 
-  .footer-left, .footer-cursor { display: none; }
-  @media (min-width: 520px) { .footer-left, .footer-cursor { display: block; } }
-
-  .footer-links { display: inline-flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .footer-link {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 4px 8px; border: 1px solid transparent;
+  .footer-left,
+  .footer-cursor {
+    display: none;
   }
-  .footer-link:hover { border-color: rgba(129,230,217,0.35); color: var(--color-text); }
-  .footer-icon { width: 14px; height: 14px; opacity: 0.9; }
+  @media (min-width: 520px) {
+    .footer-left,
+    .footer-cursor {
+      display: block;
+    }
+  }
+
+  .footer-links {
+    display: inline-flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    border: 1px solid transparent;
+  }
+  .footer-link:hover {
+    border-color: rgba(129, 230, 217, 0.35);
+    color: var(--color-text);
+  }
+  .footer-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.9;
+  }
 
   /* ── Status bar ── */
   .status-bar {
-    display: flex; justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
     background: var(--color-surface-low);
     border-top: 1px solid var(--color-surface-high);
     padding: 2px 12px;
-    font-family: var(--font-code); font-size: 11px;
-    color: var(--color-text-muted); user-select: none; z-index: 10;
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--color-text-muted);
+    user-select: none;
+    z-index: 10;
   }
-  .status-item { display: flex; align-items: center; }
-  .status-item.mode   { background: var(--color-accent); color: var(--color-bg); padding: 0 6px; font-weight: bold; }
-  .status-item.branch { color: var(--color-accent); }
-  .status-item.file   {}
+  .status-item {
+    display: flex;
+    align-items: center;
+  }
+  .status-item.mode {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    padding: 0 6px;
+    font-weight: bold;
+  }
+  .status-item.branch {
+    color: var(--color-accent);
+  }
+  .status-item.file {
+  }
 </style>
