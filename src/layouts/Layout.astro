@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css';
+
 export interface Props {
   title?: string;
   description?: string;
@@ -18,7 +20,6 @@ const {
     <meta name="description" content={description} />
     <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -27,246 +28,17 @@ const {
     />
   </head>
   <body>
-    <div class="crt-overlay"></div>
-    <div class="scanline"></div>
-    <div class="noise"></div>
+    <div class="crt-overlay" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
     <main class="container">
       <slot />
     </main>
 
-    <svg style="display: none;">
+    <svg style="display:none;">
       <filter id="noiseFilter">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency="0.65"
-          numOctaves="3"
-          stitchTiles="stitch"></feTurbulence>
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"></feTurbulence>
       </filter>
     </svg>
-    <style is:global>
-      :root {
-        --bg: #131313;
-        --surface-lowest: #0e0e0e;
-        --surface-low: #1c1b1b;
-        --surface: #201f1f;
-        --surface-high: #2a2a2a;
-        --surface-highest: #353534;
-
-        --text: #e5e2e1;
-        --text-muted: #bdc9c6;
-        --outline: #879391;
-        --outline-variant: #3d4947;
-
-        --accent: #81e6d9;
-        --accent-strong: #b5fff4;
-        --danger: #ffb4ab;
-        --warning: #ffcd7e;
-
-        --max-width: 1200px;
-        --gutter: 24px;
-        --page-margin: 48px;
-        --grid: 4px;
-
-        --font-ui: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-          Consolas, "Liberation Mono", "Courier New", monospace;
-        --font-code: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco,
-          Consolas, "Liberation Mono", "Courier New", monospace;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html,
-      body {
-        height: 100%;
-        overflow-x: hidden;
-      }
-
-      html {
-        -webkit-text-size-adjust: 100%;
-      }
-
-      body {
-        margin: 0;
-        font-family: var(--font-ui);
-        font-size: 16px;
-        line-height: 1.6;
-        color: var(--text);
-        background: var(--bg);
-        position: relative;
-      }
-
-      /* CRT Effects */
-      .crt-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: linear-gradient(
-            rgba(18, 16, 16, 0) 50%,
-            rgba(0, 0, 0, 0.1) 50%
-          ),
-          linear-gradient(
-            90deg,
-            rgba(255, 0, 0, 0.03),
-            rgba(0, 255, 0, 0.01),
-            rgba(0, 0, 255, 0.03)
-          );
-        background-size: 100% 3px, 3px 100%;
-        pointer-events: none;
-        z-index: 9999;
-        animation: flicker 0.15s infinite;
-      }
-
-      .scanline {
-        width: 100%;
-        height: 100px;
-        z-index: 9998;
-        background: linear-gradient(
-          0deg,
-          rgba(0, 0, 0, 0) 0%,
-          rgba(255, 255, 255, 0.02) 50%,
-          rgba(0, 0, 0, 0) 100%
-        );
-        opacity: 0.1;
-        position: fixed;
-        bottom: 100%;
-        pointer-events: none;
-        animation: scanline 8s linear infinite;
-      }
-
-      .noise {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9997;
-        opacity: 0.05;
-        pointer-events: none;
-        filter: url(#noiseFilter);
-      }
-
-      @keyframes flicker {
-        0% {
-          opacity: 0.95;
-        }
-        5% {
-          opacity: 0.85;
-        }
-        10% {
-          opacity: 0.95;
-        }
-        15% {
-          opacity: 0.9;
-        }
-        20% {
-          opacity: 0.95;
-        }
-        25% {
-          opacity: 0.85;
-        }
-        30% {
-          opacity: 0.95;
-        }
-        35% {
-          opacity: 0.9;
-        }
-        40% {
-          opacity: 0.95;
-        }
-        45% {
-          opacity: 0.85;
-        }
-        50% {
-          opacity: 0.95;
-        }
-        55% {
-          opacity: 0.9;
-        }
-        60% {
-          opacity: 0.95;
-        }
-        65% {
-          opacity: 0.85;
-        }
-        70% {
-          opacity: 0.95;
-        }
-        75% {
-          opacity: 0.9;
-        }
-        80% {
-          opacity: 0.95;
-        }
-        85% {
-          opacity: 0.85;
-        }
-        90% {
-          opacity: 0.95;
-        }
-        95% {
-          opacity: 0.9;
-        }
-        100% {
-          opacity: 0.95;
-        }
-      }
-
-      @keyframes scanline {
-        0% {
-          transform: translateY(0);
-        }
-        100% {
-          transform: translateY(110vh);
-        }
-      }
-
-      ::selection {
-        background: rgba(129, 230, 217, 0.25);
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      a:focus-visible,
-      button:focus-visible {
-        outline: 2px solid rgba(129, 230, 217, 0.5);
-        outline-offset: 2px;
-      }
-
-      .container {
-        width: min(var(--max-width), calc(100% - (var(--page-margin) * 2)));
-        margin: 0 auto;
-        padding: var(--page-margin) 0;
-        position: relative;
-      }
-
-      @media (max-width: 900px) {
-        .container {
-          width: calc(100% - (var(--gutter) * 2));
-          padding: calc(var(--page-margin) / 1.5) 0;
-        }
-      }
-
-      @media (max-width: 520px) {
-        :root {
-          --gutter: 16px;
-          --page-margin: 20px;
-        }
-
-        body {
-          font-size: 15px;
-        }
-
-        .container {
-          padding: var(--page-margin) 0;
-        }
-      }
-    </style>
   </body>
 </html>
