@@ -28,9 +28,8 @@ const { Content } = await render(entry);
           <span class="dot dot-min"></span>
           <span class="dot dot-max"></span>
         </div>
-        <div class="title">docs — {entry.id}.md</div>
-        <div class="flex items-center">
-          <a href="/" class="back-link">cd ..</a>
+        <div class="title">
+          docs — {entry.id}.md <a href="/" class="back-link">cd ../</a>
         </div>
       </div>
 
@@ -66,7 +65,8 @@ const { Content } = await render(entry);
         <div class="doc-footer">
           <p>
             Fin de la documentación. <a href="/" class="highlight-link"
-              >Volver al terminal</a>
+              >Volver al terminal</a
+            >
           </p>
         </div>
       </div>
@@ -104,6 +104,9 @@ const { Content } = await render(entry);
   }
 
   .titlebar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
@@ -151,23 +154,9 @@ const { Content } = await render(entry);
 
   .content {
     padding: 24px;
-    max-height: 80vh;
-    overflow-y: auto;
   }
 
-  /* Scrollbar styling */
-  .content::-webkit-scrollbar {
-    width: 8px;
-  }
-  .content::-webkit-scrollbar-track {
-    background: var(--color-bg);
-  }
-  .content::-webkit-scrollbar-thumb {
-    background: var(--color-surface-high);
-  }
-  .content::-webkit-scrollbar-thumb:hover {
-    background: var(--color-accent);
-  }
+  /* Remove internal scrollbar styling since we now use page scroll */
 
   .doc-header h1 {
     font-family: var(--font-ui);
@@ -302,6 +291,9 @@ const { Content } = await render(entry);
   }
 
   .status-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
     display: flex;
     justify-content: space-between;
     background: var(--color-surface-low);
@@ -328,7 +320,7 @@ const { Content } = await render(entry);
     .doc-window {
       margin: 0;
       border: none;
-      height: 100vh;
+      min-height: 100vh;
       max-width: 100%;
     }
     .content {
