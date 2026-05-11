@@ -1,0 +1,174 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Command from "../components/Command.astro";
+import Section from "../components/Section.astro";
+---
+
+<Layout title="404: Not Found — Portfolio" description="Lo sentimos, la página que buscas no existe.">
+  <main class="container">
+    <div class="window error-window">
+      <div class="titlebar">
+        <div class="flex gap-2 items-center">
+          <span class="dot dot-close"></span>
+          <span class="dot dot-min"></span>
+          <span class="dot dot-max"></span>
+        </div>
+        <div class="title">error — 404</div>
+        <div></div>
+      </div>
+
+      <div class="content">
+        <Command command="find / -name 'requested_page'" variant="title" />
+        
+        <Section tone="muted">
+          <div class="error-msg">
+            <span class="error-code">[ERROR 404]</span>
+            <p>La ruta especificada no pudo ser encontrada en el servidor.</p>
+            <p>Es posible que el archivo haya sido movido, eliminado o que el comando sea incorrecto.</p>
+          </div>
+        </Section>
+
+        <div class="separator"></div>
+
+        <div class="actions">
+          <p>Sugerencia: Regresa al directorio principal para continuar la exploración.</p>
+          <a href="/" class="btn btn-primary">
+            cd /home/portfolio<span class="cursorish">_</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="status-bar">
+        <div class="flex gap-3">
+          <span class="status-item mode error">ERR</span>
+          <span class="status-item file">404_not_found.sh</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .error-window {
+    border: 1px solid #ff5f57;
+    max-width: 600px;
+    margin: 100px auto;
+  }
+
+  .window {
+    background: linear-gradient(180deg, var(--color-surface-lowest), var(--color-bg));
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .titlebar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    height: 40px;
+    background: var(--color-surface-low);
+    border-bottom: 1px solid var(--color-surface-high);
+    padding: 0 16px;
+  }
+
+  .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.35);
+    display: inline-block;
+  }
+  .dot-close { background: #ff5f57; }
+  .dot-min   { background: #febc2e; }
+  .dot-max   { background: #28c840; }
+
+  .title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .content {
+    padding: 24px;
+  }
+
+  .error-msg {
+    margin-top: 16px;
+    font-family: var(--font-ui);
+    line-height: 1.6;
+  }
+
+  .error-code {
+    color: #ff5f57;
+    font-weight: bold;
+    font-family: var(--font-code);
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .separator {
+    height: 1px;
+    margin: 24px 0;
+    background: linear-gradient(90deg, rgba(255,95,87,0), rgba(255,95,87,0.35), rgba(255,95,87,0));
+  }
+
+  .actions p {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-family: var(--font-code);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: #0e0e0e;
+    font-weight: bold;
+  }
+
+  .btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+  }
+
+  .cursorish {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    background: var(--color-surface-low);
+    border-top: 1px solid var(--color-surface-high);
+    padding: 4px 12px;
+    font-family: var(--font-code);
+    font-size: 11px;
+    color: var(--color-text-muted);
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+  }
+
+  .status-item.mode.error {
+    background: #ff5f57;
+    color: white;
+    padding: 0 6px;
+    font-weight: bold;
+  }
+</style>

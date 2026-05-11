@@ -7,6 +7,7 @@ export type ExperienceItem = {
 
 export type ProjectItem = {
   name: string;
+  slug?: string;
   subtitle: string;
   description: string;
   tech: { label: string; iconSrc: string }[];
@@ -100,6 +101,7 @@ export const profile: Profile = {
     },
     {
       name: "Fixit - Gestión y Conexión de Servicios Técnicos",
+      slug: "fixit",
       subtitle: "Plataforma móvil con geolocalización, chat en tiempo real y control de reparaciones",
       description:
         "Aplicación móvil diseñada para conectar usuarios con soporte técnico especializado mediante un mapa interactivo para ubicación de servicios, un sistema de chat integrado para comunicación directa y una arquitectura híbrida de datos que garantiza el seguimiento preciso de cada orden de trabajo.",
@@ -124,6 +126,7 @@ export const profile: Profile = {
     },
     {
       name: "Nami - Asistente Inteligente de Finanzas Personales",
+      slug: "nami",
       subtitle: "Plataforma de autogestión financiera con IA, OCR y control multi-moneda",
       description:
         "Asistente inteligente diseñado para automatizar el registro de gastos mediante el escaneo de facturas con OCR y categorización automática por IA. La plataforma optimiza la administración de finanzas personales ofreciendo visualización de datos en tiempo real, presupuestos personalizados y soporte completo para múltiples divisas.",
