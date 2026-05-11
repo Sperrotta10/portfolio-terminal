@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+/* ─── Design tokens & custom breakpoints ─── */
+@theme {
+  --color-bg:              #131313;
+  --color-surface-lowest:  #0e0e0e;
+  --color-surface-low:     #1c1b1b;
+  --color-surface:         #201f1f;
+  --color-surface-high:    #2a2a2a;
+  --color-surface-highest: #353534;
+
+  --color-text:            #e5e2e1;
+  --color-text-muted:      #bdc9c6;
+  --color-outline:         #879391;
+  --color-outline-variant: #3d4947;
+
+  --color-accent:          #81e6d9;
+  --color-accent-strong:   #b5fff4;
+  --color-danger:          #ffb4ab;
+  --color-warning:         #ffcd7e;
+
+  --font-ui:   "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-code: "Fira Code",      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Custom breakpoints matching the project design */
+  --breakpoint-sm: 520px;
+  --breakpoint-md: 600px;
+  --breakpoint-lg: 900px;
+}
+
+/* ─── Base reset ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; overflow-x: hidden; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+  position: relative;
+}
+
+@media (max-width: 520px) { body { font-size: 15px; } }
+
+::selection { background: rgba(129, 230, 217, 0.25); }
+a { color: inherit; text-decoration: none; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid rgba(129, 230, 217, 0.5);
+  outline-offset: 2px;
+}
+
+/* ─── Container ─── */
+.container {
+  width: min(1200px, calc(100% - 96px));
+  margin: 0 auto;
+  padding: 48px 0;
+  position: relative;
+}
+@media (max-width: 900px) {
+  .container { width: calc(100% - 48px); padding: 32px 0; }
+}
+@media (max-width: 520px) {
+  .container { width: calc(100% - 32px); padding: 20px 0; }
+}
+
+/* ─── CRT effects ─── */
+.crt-overlay {
+  position: fixed; inset: 0;
+  background:
+    linear-gradient(rgba(18,16,16,0) 50%, rgba(0,0,0,.1) 50%),
+    linear-gradient(90deg, rgba(255,0,0,.03), rgba(0,255,0,.01), rgba(0,0,255,.03));
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none; z-index: 9999;
+  animation: flicker 0.15s infinite;
+}
+.scanline {
+  width: 100%; height: 100px; z-index: 9998;
+  background: linear-gradient(0deg, transparent 0%, rgba(255,255,255,.02) 50%, transparent 100%);
+  opacity: 0.1; position: fixed; bottom: 100%;
+  pointer-events: none; animation: scanline 8s linear infinite;
+}
+.noise {
+  position: fixed; inset: 0; z-index: 9997;
+  opacity: 0.05; pointer-events: none; filter: url(#noiseFilter);
+}
+
+/* ─── Shared utility for set:html content ─── */
+.highlight { color: var(--color-accent-strong); font-weight: 500; }
+
+/* ─── Keyframes ─── */
+@keyframes flicker {
+  0%,10%,20%,30%,40%,50%,60%,70%,80%,90%,100% { opacity: 0.95; }
+  5%,25%,45%,65%,85% { opacity: 0.85; }
+  15%,35%,55%,75%,95% { opacity: 0.90; }
+}
+@keyframes scanline {
+  from { transform: translateY(0); }
+  to   { transform: translateY(110vh); }
+}
+@keyframes bootIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
