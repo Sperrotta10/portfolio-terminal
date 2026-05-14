@@ -24,6 +24,13 @@ tech: ["React Native", "Node.js", "MySQL", "Firebase"]
 - **Database:** MySQL (Relational) & Cloud Firestore (NoSQL for real-time)
 - **Storage:** Google Cloud Storage para evidencia fotográfica y perfiles
 
+### Organización del Proyecto (Arquitectura)
+
+- **Backend:** Implementado bajo el patrón **MVC (Model-View-Controller)** para una separación clara entre la lógica de negocio y los controladores de servicio.
+- **Frontend:** Estructura modular siguiendo las convenciones de React Native:
+  - `/app`: Lógica central, navegación y proveedores de contexto.
+  - `/components`: Piezas atómicas y componentes reutilizables de la interfaz.
+
 ### 📊 Modelo de Base de Datos (Relacional)
 
 Para garantizar la integridad de las transacciones y la gestión de usuarios, FIXIT utiliza un esquema relacional normalizado. A continuación se detalla la estructura principal:

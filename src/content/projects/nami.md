@@ -19,6 +19,29 @@ tech: ["Flutter", "FastAPI", "Supabase", "Docker"]
 - **IA/ML:** Pipeline de OCR con EasyOCR, Gemini, Google Cloud Vision.
 - **Database:** PostgreSQL (Relational) gestionado con SQLModel.
 
+### Organización del Proyecto (Arquitectura)
+
+El ecosistema se divide en dos repositorios independientes, permitiendo un desarrollo desacoplado y escalable:
+
+- **Backend (Clean Architecture):**
+  - `api`: Controladores de los endpoints y definición de rutas.
+  - `core`: Lógica de negocio central, configuraciones de seguridad y constantes.
+  - `db`: Gestión de sesiones y configuración de la base de datos.
+  - `models`: Definición de esquemas de datos y entidades.
+  - `providers`: Módulos para servicios externos (EasyOCR, Gemini, Cloud Vision).
+  - `repositories`: Capa de abstracción para el acceso a datos.
+  - `schemas`: Modelos de validación (Pydantic) para entrada/salida de datos.
+  - `services`: Casos de uso y orquestación de la lógica de negocio.
+  - `static`: Almacenamiento de archivos y recursos estáticos.
+  - `utils`: Funciones auxiliares y herramientas transversales.
+
+- **Frontend (Arquitectura por Capas):**
+  - `config`: Configuración global, temas y variables de entorno.
+  - `domain`: Entidades puras de negocio y contratos de servicios.
+  - `infrastructure`: Implementación de repositorios y fuentes de datos externas.
+  - `presentation`: UI (Widgets, Screens) y gestión de estado reactiva.
+  - `shared`: Componentes UI genéricos y utilidades compartidas.
+
 ### 📊 Modelo de Base de Datos (Relacional)
 
 Para garantizar la integridad de las transacciones y la gestión de divisas, Nami utiliza un esquema relacional normalizado. A continuación se detalla la estructura principal:

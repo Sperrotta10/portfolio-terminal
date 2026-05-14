@@ -216,5 +216,5 @@ export const profile: Profile = {
       iconSrc: "/social/gmail.svg"
     },
   ],
-  cvUrl: "/sperrotta_cv.pdf",
+  cvUrl: "/cv/CV-Santiago-Perrotta.pdf",
 };
