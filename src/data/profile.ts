@@ -68,10 +68,10 @@ export const profile: Profile = {
       role: "Desarrollador Full Stack (Freelancer)",
       company: "Ferreteria Garibaldi - Ferreteria Cotopery",
       bullets: [
-        "<span class='highlight'>Diseñé</span> e <span class='highlight'>implementé</span> una solución integral ERP/POS (Desktop y Mobile) para optimizar la gestión de inventario y ventas\n en el sector ferretero, eliminando procesos manuales y dependencias operativas\n mediante una interfaz intuitiva para todo el personal.",
-        "<span class='highlight'>Desarrollé</span> el backend y la lógica de <span class='highlight'>cálculo bimonetaria (USD / VES)</span> con historial para auditorías, e integré una funcionalidad\n automatizada de actualización de tasas oficiales mediante <span class='highlight'>scraping/API</span> en un solo clic",
-        "<span class='highlight'>Construí</span> un motor de conversión para venta fraccionada (unidades continuas/granel) y control preciso de existencias,\n permitiendo ajustes directos y trazabilidad total del stock.",
-        "<span class='highlight'>Creé</span> la aplicación táctil de escritorio y móvil integrando escaneo de códigos de barras (mediante cámara móvil y lectores dedicados),\n agilizando la búsqueda de productos y la atención en el punto de venta.",
+        "<span class='highlight'>Diseñé</span> e <span class='highlight'>implementé</span> una solución integral ERP/POS (Desktop y Mobile) para optimizar la gestión de inventario y ventas en el sector ferretero\n, eliminando procesos manuales y dependencias operativas mediante una interfaz\n intuitiva para todo el personal.",
+        "<span class='highlight'>Desarrollé</span> el backend y la lógica de <span class='highlight'>cálculo bimonetaria (USD / VES)</span> con historial para auditorías, e integré una funcionalidad automatizada de actualización de tasas\n oficiales mediante <span class='highlight'>scraping/API</span> en un solo clic",
+        "<span class='highlight'>Construí</span> un motor de conversión para venta fraccionada (unidades/metros/kilogramos) y control preciso de existencias, permitiendo ajustes directos y trazabilidad\n total del stock.",
+        "<span class='highlight'>Creé</span> la aplicación táctil de escritorio y móvil integrando escaneo de <span class='highlight'>códigos de barras (mediante cámara móvil y lectores dedicados)</span>, agilizando la búsqueda de\n productos y la atención en el punto de venta.",
       ]
     },
     {
