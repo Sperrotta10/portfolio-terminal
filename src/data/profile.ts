@@ -68,9 +68,9 @@ export const profile: Profile = {
       role: "Desarrollador Full Stack (Freelancer)",
       company: "Ferreteria Garibaldi - Ferreteria Cotopery",
       bullets: [
-        "<span class='highlight'>Diseñé</span> e <span class='highlight'>implementé</span> una solución integral ERP/POS (Desktop y Mobile) para optimizar la gestión\n de inventario y ventas en el sector ferretero, eliminando procesos manuales y dependencias operativas\n mediante una interfaz intuitiva para todo el personal.",
+        "<span class='highlight'>Diseñé</span> e <span class='highlight'>implementé</span> una solución integral ERP/POS (Desktop y Mobile) para optimizar la gestión\n de inventario y ventas en el sector ferretero, eliminando procesos manuales y dependencias\n operativas mediante una interfaz intuitiva para todo el personal.",
         "<span class='highlight'>Desarrollé</span> el backend y la lógica de <span class='highlight'>cálculo bimonetaria (USD / VES)</span> con historial para\n auditorías, e integré una funcionalidad automatizada de actualización de tasas\n oficiales mediante <span class='highlight'>scraping/API</span> en un solo clic",
-        "<span class='highlight'>Construí</span> un motor de conversión para venta fraccionada (unidad/metros/kilogramos) y control]\n preciso de existencias, permitiendo ajustes directos y trazabilidad total del stock.",
+        "<span class='highlight'>Construí</span> un motor de conversión para venta fraccionada (unidad/metros/kilogramos) y control\n preciso de existencias, permitiendo ajustes directos y trazabilidad total del stock.",
         "<span class='highlight'>Creé</span> la aplicación táctil de escritorio y móvil integrando escaneo de <span class='highlight'>códigos de barras\n (mediante cámara móvil y lectores dedicados)</span>, agilizando la búsqueda de\n productos y la atención en el punto de venta.",
       ]
     },
