@@ -59,14 +59,15 @@ const hasMultiple = images.length > 1;
 
       if (!imgEl || !prevBtn || !nextBtn) return;
 
+      const img = imgEl!;
       const FADE_MS = 150;
 
       function goTo(index: number) {
         currentIndex = (index + images.length) % images.length;
-        imgEl.style.opacity = "0";
+        img.style.opacity = "0";
         setTimeout(() => {
-          imgEl.src = images[currentIndex];
-          imgEl.style.opacity = "1";
+          img.src = images[currentIndex];
+          img.style.opacity = "1";
           dots.forEach((dot, i) => {
             dot.classList.toggle("active", i === currentIndex);
             dot.setAttribute("aria-selected", String(i === currentIndex));
