@@ -3,6 +3,7 @@ import type { Profile } from "../data/profile";
 import Command from "./Command.astro";
 import Section from "./Section.astro";
 import Cursor from "./Cursor.astro";
+import Carousel from "./Carousel.astro";
 
 export interface Props {
   profile: Profile;
@@ -10,6 +11,8 @@ export interface Props {
 }
 
 const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
+
+const BOOT_DELAYS = [0.1, 0.8, 1.5, 2.2] as const;
 ---
 
 <div class="window" role="region" aria-label="Terminal portfolio">
@@ -35,16 +38,16 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 
     <!-- Boot lines -->
     <div class="system">
-      <div class="line boot-line" style="--delay: 0.1s">
+      <div class="line boot-line" style={`--delay: ${BOOT_DELAYS[0]}s`}>
         <span class="tag">[system]</span> Initializing Portfolio v1.0.0…
       </div>
-      <div class="line boot-line" style="--delay: 0.8s">
+      <div class="line boot-line" style={`--delay: ${BOOT_DELAYS[1]}s`}>
         <span class="tag">[system]</span> Loading profile: Developer… OK
       </div>
-      <div class="line boot-line" style="--delay: 1.5s">
+      <div class="line boot-line" style={`--delay: ${BOOT_DELAYS[2]}s`}>
         <span class="tag">[system]</span> Status: Ready.
       </div>
-      <div class="line boot-line" style="--delay: 2.2s">
+      <div class="line boot-line" style={`--delay: ${BOOT_DELAYS[3]}s`}>
         <span class="tag">[system]</span> Hint: Use <a
           href="#contact"
           class="system-link">--contact</a
@@ -104,42 +107,13 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
         {
           profile.projects.map((p) => (
             <article class="project">
-              {p.images && p.images.length > 0 ? (
-                <div
-                  class={`project-media ${p.isMobile ? "is-mobile" : ""}`}
-                  data-project-images={JSON.stringify(p.images)}
-                >
-                  <div class="carousel-container">
-                    <img
-                      class="project-img active"
-                      src={p.images[0]}
-                      alt={`Vista referencial de ${p.name}`}
-                      loading="lazy"
-                    />
-                    {p.images.length > 1 && (
-                      <div class="carousel-controls">
-                        <button class="carousel-btn prev" aria-label="Anterior">
-                          ‹
-                        </button>
-                        <div class="carousel-dots">
-                          {p.images.map((_, i) => (
-                            <span
-                              class={`cdot ${i === 0 ? "active" : ""}`}
-                              data-index={i}
-                            />
-                          ))}
-                        </div>
-                        <button
-                          class="carousel-btn next"
-                          aria-label="Siguiente"
-                        >
-                          ›
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ) : null}
+              {p.images && p.images.length > 0 && (
+                <Carousel
+                  images={p.images}
+                  alt={`Vista referencial de ${p.name}`}
+                  isMobile={p.isMobile}
+                />
+              )}
               <div class="project-head">
                 <div class="project-name">{p.name}</div>
                 <div class="project-sub">{p.subtitle}</div>
@@ -288,7 +262,6 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
 </div>
 
 <script>
-  // Clock
   function updateTime() {
     const el = document.getElementById("terminal-time");
     if (el)
@@ -298,48 +271,6 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   }
   setInterval(updateTime, 1000);
   updateTime();
-
-  // Carousel
-  function initCarousels() {
-    document.querySelectorAll(".project-media").forEach((container) => {
-      const images = JSON.parse(
-        container.getAttribute("data-project-images") || "[]",
-      );
-      if (images.length <= 1) return;
-
-      let currentIndex = 0;
-      const imgEl = container.querySelector(".project-img") as HTMLImageElement;
-      const dots = container.querySelectorAll(".carousel-dots .cdot");
-      const prevBtn = container.querySelector(".carousel-btn.prev");
-      const nextBtn = container.querySelector(".carousel-btn.next");
-
-      const updateCarousel = (index: number) => {
-        currentIndex = (index + images.length) % images.length;
-        imgEl.style.opacity = "0";
-        setTimeout(() => {
-          imgEl.src = images[currentIndex];
-          imgEl.style.opacity = "1";
-          dots.forEach((d, i) =>
-            i === currentIndex
-              ? d.classList.add("active")
-              : d.classList.remove("active"),
-          );
-        }, 150);
-      };
-
-      prevBtn?.addEventListener("click", () =>
-        updateCarousel(currentIndex - 1),
-      );
-      nextBtn?.addEventListener("click", () =>
-        updateCarousel(currentIndex + 1),
-      );
-      dots.forEach((d, i) =>
-        d.addEventListener("click", () => updateCarousel(i)),
-      );
-    });
-  }
-
-  initCarousels();
 </script>
 
 <style>
@@ -506,6 +437,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   .experience {
     display: grid;
     gap: 20px;
+    max-width: 75ch;
   }
 
   .exp-head {
@@ -557,7 +489,7 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   }
   .exp-bullets li {
     margin: 4px 0;
-    white-space: pre-line;
+    white-space: normal;
   }
 
   /* ── Projects grid ── */
@@ -589,113 +521,6 @@ const { profile, windowTitle = "portfolio — zsh" } = Astro.props;
   .project:hover {
     border-color: rgba(129, 230, 217, 0.5);
     background: rgba(28, 27, 27, 0.9);
-  }
-
-  /* ── Carousel ── */
-  .project-media {
-    border: 1px solid var(--color-surface-highest);
-    background: rgba(14, 14, 14, 0.55);
-    margin: 0 0 16px 0;
-    overflow: hidden;
-    position: relative;
-    z-index: 10000;
-  }
-
-  .carousel-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 200px;
-  }
-  @media (min-width: 520px) {
-    .carousel-container {
-      height: 280px;
-    }
-  }
-
-  .project-img {
-    display: block;
-    width: 80%;
-    height: 80%;
-    object-fit: cover;
-    transition: opacity 0.3s ease-in-out;
-  }
-  @media (max-width: 519px) {
-    .project-img {
-      width: 80%;
-      height: 70%;
-    }
-  }
-
-  .project-media.is-mobile .carousel-container {
-    height: 240px;
-  }
-  @media (min-width: 520px) {
-    .project-media.is-mobile .carousel-container {
-      height: 280px;
-    }
-  }
-  .project-media.is-mobile .project-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 8px;
-  }
-
-  .carousel-controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-    padding: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .project-media:hover .carousel-controls {
-    opacity: 1;
-  }
-
-  .carousel-btn {
-    background: rgba(0, 0, 0, 0.5);
-    color: var(--color-accent);
-    border: 1px solid var(--color-accent);
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 1;
-    padding: 0;
-    transition: background 0.2s ease;
-  }
-  .carousel-btn:hover {
-    background: var(--color-accent);
-    color: var(--color-bg);
-  }
-
-  .carousel-dots {
-    display: flex;
-    gap: 6px;
-  }
-  .cdot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(129, 230, 217, 0.3);
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  .cdot.active {
-    background: var(--color-accent);
-    box-shadow: 0 0 5px var(--color-accent);
   }
 
   /* ── Project info ── */

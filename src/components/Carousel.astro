@@ -1,0 +1,193 @@
+---
+export interface Props {
+  images: string[];
+  alt: string;
+  isMobile?: boolean;
+}
+
+const { images, alt, isMobile = false } = Astro.props;
+const hasMultiple = images.length > 1;
+---
+
+<div
+  class:list={["carousel-root", { "is-mobile": isMobile }]}
+  data-carousel-images={JSON.stringify(images)}
+>
+  <div class="carousel-stage">
+    <img
+      class="carousel-img"
+      src={images[0]}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+    />
+    {hasMultiple && (
+      <div class="carousel-controls">
+        <button class="carousel-btn prev" aria-label="Imagen anterior">
+          <span aria-hidden="true">&#8249;</span>
+        </button>
+        <div class="carousel-dots" role="tablist">
+          {images.map((_, i) => (
+            <button
+              class:list={["carousel-dot", { active: i === 0 }]}
+              role="tab"
+              aria-selected={i === 0}
+              aria-label={`Imagen ${i + 1}`}
+              data-index={i}
+            />
+          ))}
+        </div>
+        <button class="carousel-btn next" aria-label="Imagen siguiente">
+          <span aria-hidden="true">&#8250;</span>
+        </button>
+      </div>
+    )}
+  </div>
+</div>
+
+<script>
+  function initCarousels() {
+    document.querySelectorAll<HTMLElement>("[data-carousel-images]").forEach((root) => {
+      const images: string[] = JSON.parse(root.dataset.carouselImages || "[]");
+      if (images.length <= 1) return;
+
+      let currentIndex = 0;
+      const imgEl = root.querySelector<HTMLImageElement>(".carousel-img");
+      const dots = root.querySelectorAll<HTMLButtonElement>(".carousel-dot");
+      const prevBtn = root.querySelector<HTMLButtonElement>(".carousel-btn.prev");
+      const nextBtn = root.querySelector<HTMLButtonElement>(".carousel-btn.next");
+
+      if (!imgEl || !prevBtn || !nextBtn) return;
+
+      const FADE_MS = 150;
+
+      function goTo(index: number) {
+        currentIndex = (index + images.length) % images.length;
+        imgEl.style.opacity = "0";
+        setTimeout(() => {
+          imgEl.src = images[currentIndex];
+          imgEl.style.opacity = "1";
+          dots.forEach((dot, i) => {
+            dot.classList.toggle("active", i === currentIndex);
+            dot.setAttribute("aria-selected", String(i === currentIndex));
+          });
+        }, FADE_MS);
+      }
+
+      prevBtn.addEventListener("click", () => goTo(currentIndex - 1));
+      nextBtn.addEventListener("click", () => goTo(currentIndex + 1));
+      dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+    });
+  }
+
+  initCarousels();
+</script>
+
+<style>
+  .carousel-root {
+    border: 1px solid var(--color-surface-highest);
+    background: rgba(14, 14, 14, 0.55);
+    margin: 0 0 16px 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .carousel-stage {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 200px;
+  }
+
+  .carousel-img {
+    display: block;
+    width: 80%;
+    height: 80%;
+    object-fit: cover;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .is-mobile .carousel-stage {
+    height: 240px;
+  }
+
+  .is-mobile .carousel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+  }
+
+  .carousel-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .carousel-root:hover .carousel-controls,
+  .carousel-controls:focus-within {
+    opacity: 1;
+  }
+
+  .carousel-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    padding: 0;
+    transition: background 0.2s ease;
+  }
+
+  .carousel-btn:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  .carousel-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(129, 230, 217, 0.3);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s ease;
+  }
+
+  .carousel-dot.active {
+    background: var(--color-accent);
+    box-shadow: 0 0 5px var(--color-accent);
+  }
+
+  @media (min-width: 520px) {
+    .carousel-stage {
+      height: 280px;
+    }
+
+    .is-mobile .carousel-stage {
+      height: 280px;
+    }
+  }
+</style>
